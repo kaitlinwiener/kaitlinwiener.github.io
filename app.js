@@ -27,14 +27,14 @@ var board = {
       this.currentSymbol = "O";
       $('.board').css('cursor', 'url("https://i.ppy.sh/9477d15f1f619eb775eaf3e485ed33b0038d8989/687474703a2f2f7075752e73682f3133674a61"), default');
     }
-    else {
+    else if (this.currentSymbol == "O") {
       this.currentSymbol = "X";
       $('.board').css('cursor', 'url("http://geeko.ioda.net/git/art/cursors/dmz-aa/pngs/32x32/X_cursor.png"), default');
     }
   },
 
   computerMove: function () {
-    if (this.currentSymbol = this.computerSymbol) {
+    if (this.currentSymbol == this.computerSymbol) {
       var availableOptions = [];
       for (var i=0; i<this.boardState.length; i++) {
         if (this.boardState[i] == "") {
@@ -48,7 +48,6 @@ var board = {
       this.boardState[computerChoice] = this.computerSymbol;
 
       boardView.render();
-      board.determineWinner();
       board.switchPlayer();
     }
 
@@ -150,12 +149,8 @@ var board = {
     var heads = $('#heads');
     var tails = $('#tails');
 
-    //set new game handler
+    //set new game handlers
     $("#newgame").on('click', function () {
-      // for (var i=0; i<boardState.length; i++) {
-      //   $("." + i).text("");
-      // }
-      // board.reset();
       board.pickFirstPlayer();
     });
 
@@ -212,7 +207,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square2.on('click', function () {
@@ -220,7 +217,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square3.on('click', function () {
@@ -228,7 +227,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square4.on('click', function () {
@@ -236,7 +237,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square5.on('click', function () {
@@ -244,7 +247,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square6.on('click', function () {
@@ -252,7 +257,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square7.on('click', function () {
@@ -260,7 +267,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square8.on('click', function () {
@@ -268,7 +277,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
     square9.on('click', function () {
@@ -276,7 +287,9 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
-      board.computerMove();
+      setTimeout(function () {
+        board.computerMove();
+      }, 500);
     })
 
   },

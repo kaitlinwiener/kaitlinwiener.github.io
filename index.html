@@ -1,1 +1,42 @@
-tictactoe
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app.css" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Tic Tac Toe</title>
+  </head>
+  <body>
+  <h1>Welcome to Tic Tac Toe!</h1>
+  <div id = "header" class = "oPointer">
+    <div class="form-group">
+        <label for="exampleInputName2" id = "nameLabel">Enter Name</label>
+        <input type="text" class="form-control" id="nameInput">
+      </div>
+    <div id = "options">
+      <h2>Choose X or O</h2>
+      <label class="checkbox-inline">
+        <input type="checkbox" id="X" value="X">X
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" id="O" value="option2">O
+      </label>
+  </div>
+  </div>
+  <div class = "board">
+      <div class="cell 1"></div>
+      <div class="cell 2"></div>
+      <div class="cell 3"></div>
+      <div class="cell 4"></div>
+      <div class="cell 5"></div>
+      <div class="cell 6"></div>
+      <div class="cell 7"></div>
+      <div class="cell 8"></div>
+      <div class="cell 9"></div>
+  </div>
+  <button id = "newgame">New Game</button>
+  <script src="app.js"></script>
+</body>
+</html>

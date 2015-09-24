@@ -1,0 +1,30 @@
+body {
+  width: 800px;
+  margin: 0px 100px;
+  text-align: center;
+}
+
+#options {
+  margin: 10px 250px;
+}
+
+.form-group {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.board{
+  width: 300px;
+  height: 300px;
+  margin: 0px 50px;
+
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 2px black solid;
+  display: inline-block;
+  line-height: 100px;
+  float: left;
+}

@@ -3,20 +3,24 @@ var board = {
   computerSymbol: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
+  fullBoard: false,
   winner: undefined,
 
-  pickFirstPlayer: function () {
+  pickFirstPlayer: function (choice) {
     var choose = Math.floor(Math.random()*2)
     if (choose === 0) {
       this.currentSymbol = this.playerSymbol;
       alert ("You go first!");
     } else {this.currentSymbol = this.computerSymbol;
       alert ("Computer moves first.")
+      this.computerMove();
     }
     if (this.currentSymbol === "O") {
+      console.log(this.currentSymbol);
       $('.board').css('cursor', 'url("https://i.ppy.sh/9477d15f1f619eb775eaf3e485ed33b0038d8989/687474703a2f2f7075752e73682f3133674a61"), default');
     } else {$('.board').css('cursor', 'url("http://geeko.ioda.net/git/art/cursors/dmz-aa/pngs/32x32/X_cursor.png"), default');}
-    },
+
+  },
 
   switchPlayer: function() {
     if (this.currentSymbol == "X") {
@@ -27,6 +31,27 @@ var board = {
       this.currentSymbol = "X";
       $('.board').css('cursor', 'url("http://geeko.ioda.net/git/art/cursors/dmz-aa/pngs/32x32/X_cursor.png"), default');
     }
+  },
+
+  computerMove: function () {
+    if (this.currentSymbol = this.computerSymbol) {
+      var availableOptions = [];
+      for (var i=0; i<this.boardState.length; i++) {
+        if (this.boardState[i] == "") {
+          availableOptions.push(i);
+        }
+      }
+      var availableOptionsLength = availableOptions.length;
+      var randomNumber = Math.floor(Math.random()*availableOptionsLength + 1);
+
+      var computerChoice = availableOptions[randomNumber];
+      this.boardState[computerChoice] = this.computerSymbol;
+
+      boardView.render();
+      board.determineWinner();
+      board.switchPlayer();
+    }
+
   },
 
   checkRow: function () {
@@ -55,21 +80,44 @@ var board = {
       }
   },
 
+  checkFullBoard: function () {
+    this.fullBoard = true;
+    for (var i = 0; i<this.boardState.length; i++) {
+      if (this.boardState[i] == "") {
+        this.fullBoard = false;
+      }
+    }
+
+  },
+
   determineWinner: function () {
     //remember boardState index is one less than the number of the square
       this.checkRow();
       this.checkColumn();
       this.checkDiagonal();
+      this.checkFullBoard();
 
       if (this.winner === "X") {
+        console.log(this.currentSymbol, this.playerSymbol, this.computerSymbol);
+        board.reset();
+        boardView.render();
         if (this.playerSymbol === "X") {
           alert("Player wins!");
         } else {alert ("Computer wins!");}
       }
       else if (this.winner === "O") {
+        console.log(this.currentSymbol, this.playerSymbol, this.computerSymbol);
+        board.reset();
+        boardView.render();
         if (this.playerSymbol === "O") {
           alert("Player wins!");
         } else {alert ("Computer wins!");}
+      }
+      else if (this.fullBoard == true) {
+        console.log(this.currentSymbol, this.playerSymbol, this.computerSymbol);
+        board.reset();
+        boardView.render();
+        alert ("Tie");
       }
     },
 
@@ -99,13 +147,16 @@ var board = {
     var chooseO = $('#O');
     var choiceDisplay = $('h2');
     var tictactoeBoard = $('.board');
+    var heads = $('#heads');
+    var tails = $('#tails');
 
     //set new game handler
     $("#newgame").on('click', function () {
-      for (var i=0; i<boardState.length; i++) {
-        $("." + i).text("");
-      }
-      board.reset();
+      // for (var i=0; i<boardState.length; i++) {
+      //   $("." + i).text("");
+      // }
+      // board.reset();
+      board.pickFirstPlayer();
     });
 
     nameInput.on('keypress', function (e) {
@@ -117,25 +168,33 @@ var board = {
 
         $(this).remove();
         $('#nameLabel').remove();
-        $('#options').css('display', 'block');
+        // $('#options').css('display', 'inline-block');
       }
-    })
+    });
 
     //set x and o button handlers
-    $(chooseX).on('click', function () {
+    chooseX.on('click', function () {
+      board.currentSymbol = "X";
       board.playerSymbol = "X";
       board.computerSymbol = "O";
       choiceDisplay.text("You choose X");
-      $('.board').css('display', 'block');
-      $('#newgame').css('display', 'inline-block');
+//      $('#coin').css('display', 'inline-block');
+      // $('.board').css('display', 'block');
+      // $('#newgame').css('display', 'inline-block');
     });
 
-    $(chooseO).on('click', function () {
+    chooseO.on('click', function () {
+      board.currentSymbol = "O";
       board.playerSymbol = "O";
       board.computerSymbol = "X";
       choiceDisplay.text("You choose O");
-      $('.board').css('display', 'block');
-      $('#newgame').css('display', 'inline-block');
+      // $('.board').css('display', 'block');
+      // $('#newgame').css('display', 'inline-block');
+    });
+
+    heads.on('click', function () {
+      console.log("clicked");
+      board.pickFirstPlayer('Heads');
     });
 
     var square1 = $('.1'),
@@ -153,6 +212,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square2.on('click', function () {
@@ -160,6 +220,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square3.on('click', function () {
@@ -167,6 +228,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square4.on('click', function () {
@@ -174,6 +236,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square5.on('click', function () {
@@ -181,6 +244,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square6.on('click', function () {
@@ -188,6 +252,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square7.on('click', function () {
@@ -195,6 +260,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square8.on('click', function () {
@@ -202,6 +268,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
     square9.on('click', function () {
@@ -209,6 +276,7 @@ var board = {
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.computerMove();
     })
 
   },

@@ -10,19 +10,22 @@
   </head>
   <body>
   <h1>Welcome to Tic Tac Toe!</h1>
-  <div id = "header" class = "oPointer">
+  <div id = "header">
     <div class="form-group">
         <label for="exampleInputName2" id = "nameLabel">Enter Name</label>
         <input type="text" class="form-control" id="nameInput">
       </div>
     <div id = "options">
       <h2>Choose X or O</h2>
-      <label class="checkbox-inline">
-        <input type="checkbox" id="X" value="X">X
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" id="O" value="option2">O
-      </label>
+        <label>
+            <input type="radio" name="optionsRadios" id="X" value="X" checked>
+          X</label>
+          <label>
+            <input type="radio" name="optionsRadios" id="O" value="O" checked>
+          O</label>
+  </div>
+  <div id = "coin">
+    <img id = "coinImage" src = "http://americathebeautifulsilvercoins.com/wp-content/uploads/2010/04/2015-America-the-Beautiful-Silver-Bullion-Coin-Obverse.jpg">
   </div>
   </div>
   <div class = "board">

@@ -2,7 +2,6 @@ var board = {
   playerSymbol: undefined,
   computerSymbol: undefined,
   boardState : ["","","","","","","","","",],
-  //currentPlayer: undefined,
   currentSymbol: undefined,
   winner: undefined,
 
@@ -74,6 +73,19 @@ var board = {
       }
     },
 
+    reset: function () {
+      var choiceDisplay = $('h2');
+
+      this.boardState = ["","","","","","","","","",];
+      boardView.render();
+      choiceDisplay.text("Choose X or O");
+      this.playerSymbol = undefined;
+      this.computerSymbol = undefined;
+      this.currentSymbol = undefined;
+      $('.board').css('cursor', 'default');
+
+    },
+
   };
 
   var boardView = {
@@ -93,8 +105,7 @@ var board = {
       for (var i=0; i<boardState.length; i++) {
         $("." + i).text("");
       }
-      board.boardState = ["","","","","","","","","",];
-      boardView.render();
+      board.reset();
     });
 
     nameInput.on('keypress', function (e) {
@@ -106,6 +117,7 @@ var board = {
 
         $(this).remove();
         $('#nameLabel').remove();
+        $('#options').css('display', 'block');
       }
     })
 
@@ -114,12 +126,16 @@ var board = {
       board.playerSymbol = "X";
       board.computerSymbol = "O";
       choiceDisplay.text("You choose X");
+      $('.board').css('display', 'block');
+      $('#newgame').css('display', 'inline-block');
     });
 
     $(chooseO).on('click', function () {
       board.playerSymbol = "O";
       board.computerSymbol = "X";
       choiceDisplay.text("You choose O");
+      $('.board').css('display', 'block');
+      $('#newgame').css('display', 'inline-block');
     });
 
     var square1 = $('.1'),
@@ -201,11 +217,6 @@ var board = {
     for (var i=1; i<=board.boardState.length; i++) {
       $("." + (i)).text(board.boardState[i-1]);
     }
-  //   if (currentSymbol == "O") {
-  //     console.log("hey");
-  //     console.log(board.currentSymbol);
-  //     $('.cell').css('cursor', 'crosshair' );
-  //   } else {console.log("sup");}
  },
 
 };

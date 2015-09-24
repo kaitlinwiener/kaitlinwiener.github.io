@@ -28,3 +28,13 @@ body {
   line-height: 100px;
   float: left;
 }
+
+#coinImage {
+  width: 250px;
+  height: 250px;
+  display: none;
+}
+
+#options, .board, #newgame {
+  display: none;
+}

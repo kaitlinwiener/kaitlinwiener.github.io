@@ -117,7 +117,7 @@ var board = {
         this.reset();
       }
 
-      $('#score').text(this.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
+      $('#score').text(this.name + ": "+ board.playerScore + " vs. Computer: " + board.computerScore);
     },
 
     reset: function () {

@@ -1,7 +1,8 @@
 var board = {
   name: undefined,
+  opponent: undefined,
   playerSymbol: undefined,
-  computerSymbol: undefined,
+  otherSymbol: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
   fullBoard: undefined,
@@ -13,9 +14,9 @@ var board = {
     var choosePlayer = Math.floor(Math.random()*2)
     if (choosePlayer === 0) {
       this.currentSymbol = this.playerSymbol;
-      alert ("You go first!");
+      alert (this.name + " go first!");
     } else {
-      this.currentSymbol = this.computerSymbol;
+      this.currentSymbol = this.otherSymbol;
       alert ("Computer moves first.")
       this.computerMove();
     }
@@ -37,7 +38,7 @@ var board = {
   },
 
   computerMove: function () {
-    if (this.currentSymbol == this.computerSymbol) {
+    if (this.currentSymbol == this.otherSymbol) {
       var availableOptions = [];
       for (var i=0; i<this.boardState.length; i++) {
         if (this.boardState[i] == "") {
@@ -49,7 +50,7 @@ var board = {
 
       var computerChoice = availableOptions[randomNumber];
 
-      this.boardState[computerChoice] = this.computerSymbol;
+      this.boardState[computerChoice] = this.otherSymbol;
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
@@ -98,7 +99,7 @@ var board = {
 
       if (this.winner === "X") {
         if (this.playerSymbol === "X") {
-          alert("Player wins!");
+          alert(this.name + " wins!");
           this.playerScore +=1;
         } else {
             alert ("Computer wins!");
@@ -108,7 +109,7 @@ var board = {
       }
       else if (this.winner === "O") {
         if (this.playerSymbol === "O") {
-          alert("Player wins!");
+          alert(this.name + " wins!");
           this.playerScore +=1;
         } else {
           alert ("Computer wins!");
@@ -129,7 +130,7 @@ var board = {
 
       choiceDisplay.text("Choose X (Giants) or O (Jets)");
       this.playerSymbol = undefined;
-      this.computerSymbol = undefined;
+      this.otherSymbol = undefined;
       this.winner = undefined;
       this.fullBoard = undefined;
       $('.board').css('cursor', 'default');
@@ -146,13 +147,15 @@ var board = {
   thisView: this,
 
   setHandlers: function () {
-    var nameInput = $('#nameInput');
-    var chooseX = $('#X');
-    var chooseO = $('#O');
-    var choiceDisplay = $('h3');
-    var tictactoeBoard = $('.board');
-    var heads = $('#heads');
-    var tails = $('#tails');
+    var nameInput = $('#nameInput'),
+        playPlayer = $('#playPlayer'),
+        playComputer = $('#playComputer'),
+        chooseX = $('#X'),
+        chooseO = $('#O'),
+        choiceDisplay = $('h3'),
+        tictactoeBoard = $('.board'),
+        heads = $('#heads'),
+        tails = $('#tails');
 
     //set new game handlers
     $("#newgame").on('click', function () {
@@ -162,39 +165,54 @@ var board = {
       }
       else if ($('#O').prop("checked")) {
         board.playerSymbol = "O";
-        board.computerSymbol = "X";
+        board.otherSymbol = "X";
         board.pickFirstPlayer();
       } else {
         board.playerSymbol = "X";
-        board.computerSymbol = "O";
+        board.otherSymbol = "O";
         board.pickFirstPlayer();
       }
 
     });
 
+    playPlayer.on('click', function () {
+      board.opponent = "player";
+    })
+
+    playComputer.on('click', function () {
+      board.opponent = "computer";
+    })
+
     nameInput.on('keypress', function (e) {
-      if (e.charCode === 13) {
-        var name = $(this).val();
-        var header = $('h1');
+        if (e.charCode === 13) {
+          if (playPlayer.prop("checked") == false && playComputer.prop("checked") == false) {
+            alert("Please select an opponent");
+          }
+          else {
+          var name = $(this).val();
+          var header = $('h1');
 
-        header.text("Welcome " + name + "!");
-        board.name = name;
-        $(this).remove();
-        $('#nameLabel').remove();
-        $('#score').text(name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
-        // $('#options').css('display', 'inline-block');
+          header.text("Welcome " + name + "!");
+          board.name = name;
+          $(this).remove();
+          $('#nameLabel').remove();
+          $('#score').text(name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
+          // $('#options').css('display', 'inline-block');
 
-       $('#startScreen').css('visibility','hidden');
-       $('#secondScreen').css('visibility','visible');
-    //    $('#secondScreen').fadeIn("slow");
+         $('#startScreen').css('visibility','hidden');
+         $('#secondScreen').css('visibility','visible');
+      //    $('#secondScreen').fadeIn("slow");
+        }
       }
     });
+
+
 
     //set x and o button handlers
     chooseX.on('click', function () {
       board.currentSymbol = "X";
       board.playerSymbol = "X";
-      board.computerSymbol = "O";
+      board.otherSymbol = "O";
       choiceDisplay.text("You choose X (Giants)");
       // $('#X').css('display', 'none');
       // $('#O').css('display', 'none');
@@ -206,7 +224,7 @@ var board = {
     chooseO.on('click', function () {
       board.currentSymbol = "O";
       board.playerSymbol = "O";
-      board.computerSymbol = "X";
+      board.otherSymbol = "X";
       choiceDisplay.text("You choose O (Jets)");
       // $('#labels').css('display', 'none');
       // $('#X').css('display', 'none');
@@ -238,9 +256,11 @@ var board = {
         board.checkFullBoard();
         board.switchPlayer();
 
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -252,9 +272,11 @@ var board = {
         board.checkFullBoard();
         board.switchPlayer();
 
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -266,9 +288,11 @@ var board = {
         board.checkFullBoard();
         board.switchPlayer();
 
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -279,9 +303,12 @@ var board = {
         board.determineWinner();
         board.checkFullBoard();
         board.switchPlayer();
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -292,9 +319,12 @@ var board = {
         board.determineWinner();
         board.checkFullBoard();
         board.switchPlayer();
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -305,9 +335,12 @@ var board = {
         board.determineWinner();
         board.checkFullBoard();
         board.switchPlayer();
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -318,9 +351,13 @@ var board = {
         board.determineWinner();
         board.checkFullBoard();
         board.switchPlayer();
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
+
       }
     })
 
@@ -332,9 +369,11 @@ var board = {
         board.checkFullBoard();
         board.switchPlayer();
 
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 
@@ -346,9 +385,11 @@ var board = {
         board.checkFullBoard();
         board.switchPlayer();
 
-        setTimeout(function () {
-          board.computerMove();
-        }, 1500);
+        if (board.opponent == "computer") {
+          setTimeout(function () {
+            board.computerMove();
+          }, 1500);
+        }
       }
     })
 

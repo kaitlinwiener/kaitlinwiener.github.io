@@ -80,6 +80,10 @@ h3 {
   background-color: steelblue;
 }
 
+#secondNameLabel, #secondNameInput {
+  visibility: hidden;
+}
+
 
 /*
 #options, .board, #newgame {

@@ -1,6 +1,7 @@
 var board = {
   name: undefined,
   opponent: undefined,
+  opponentName: undefined,
   playerSymbol: undefined,
   otherSymbol: undefined,
   boardState : ["","","","","","","","","",],
@@ -17,8 +18,10 @@ var board = {
       alert (this.name + " go first!");
     } else {
       this.currentSymbol = this.otherSymbol;
-      alert ("Computer moves first.")
-      this.computerMove();
+      alert (this.opponentName + " moves first.")
+      if (this.opponentName === "Computer") {
+        this.computerMove();
+      }
     }
     if (this.currentSymbol === "O") {
       $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
@@ -30,10 +33,24 @@ var board = {
     if (this.currentSymbol == "X") {
       this.currentSymbol = "O";
       $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
+
+      if (this.playerSymbol == "0") {
+        $('h3').text(this.name + "'s turn");
+      }
+      else {
+        $('h3').text(this.opponentName + "'s turn");
+      }
     }
     else if (this.currentSymbol == "O") {
       this.currentSymbol = "X";
       $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
+
+      if (this.playerSymbol = "X") {
+        $('h3').text(this.name + "'s turn");
+      }
+      else {
+        $('h3').text(this.opponentName + "'s turn");
+      }
     }
   },
 
@@ -51,6 +68,7 @@ var board = {
       var computerChoice = availableOptions[randomNumber];
 
       this.boardState[computerChoice] = this.otherSymbol;
+
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
@@ -102,7 +120,7 @@ var board = {
           alert(this.name + " wins!");
           this.playerScore +=1;
         } else {
-            alert ("Computer wins!");
+            alert (this.opponentName + " wins!");
             this.computerScore +=1;
         }
         this.reset();
@@ -112,13 +130,13 @@ var board = {
           alert(this.name + " wins!");
           this.playerScore +=1;
         } else {
-          alert ("Computer wins!");
+          alert (this.opponentName + " wins!");
           this.computerScore +=1;
         }
         this.reset();
       }
 
-      $('#score').text(this.name + ": "+ board.playerScore + " vs. Computer: " + board.computerScore);
+      $('#score').text(this.name + ": "+ board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
     },
 
     reset: function () {
@@ -128,7 +146,7 @@ var board = {
       this.boardState = ["","","","","","","","",""];
       boardView.render();
 
-      choiceDisplay.text("Choose X (Giants) or O (Jets)");
+      choiceDisplay.text(this.name + ", choose X (Giants) or O (Jets)");
       this.playerSymbol = undefined;
       this.otherSymbol = undefined;
       this.winner = undefined;
@@ -150,6 +168,7 @@ var board = {
     var nameInput = $('#nameInput'),
         playPlayer = $('#playPlayer'),
         playComputer = $('#playComputer'),
+        secondNameInput = $('#secondNameInput'),
         chooseX = $('#X'),
         chooseO = $('#O'),
         choiceDisplay = $('h3'),
@@ -175,12 +194,47 @@ var board = {
 
     });
 
-    playPlayer.on('click', function () {
+    playPlayer.on('click', function (e) {
       board.opponent = "player";
+
+      $('#secondNameLabel').css('visibility','visible');
+      $('#secondNameInput').css('visibility','visible');
+    })
+
+    secondNameInput.on('keypress', function (e) {
+      if (e.charCode === 13) {
+        board.opponentName = $(this).val();
+
+        if (nameInput.val() == "") {
+          alert("Enter first player's name")
+        }
+        else {
+          board.name = nameInput.val();
+          $('h1').text("Welcome " + board.name + " and " + board.opponentName + "!");
+          $('#score').text(board.name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
+          choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+          $(this).remove();
+          $('#secondNameLabel').remove();
+          $('#startScreen').css('visibility','hidden');
+          $('#secondScreen').css('visibility','visible');
+        }
+      }
     })
 
     playComputer.on('click', function () {
       board.opponent = "computer";
+      board.opponentName = "Computer";
+
+      if (nameInput.val() != "") {
+        $('#startScreen').css('visibility','hidden');
+        $('#secondScreen').css('visibility','visible');
+
+        board.name = nameInput.val();
+        $('h1').text("Welcome " + board.name + "!");
+        choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+        $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
+
+      }
     })
 
     nameInput.on('keypress', function (e) {
@@ -194,49 +248,61 @@ var board = {
 
           header.text("Welcome " + name + "!");
           board.name = name;
-          $(this).remove();
-          $('#nameLabel').remove();
-          $('#score').text(name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
-          // $('#options').css('display', 'inline-block');
 
-         $('#startScreen').css('visibility','hidden');
-         $('#secondScreen').css('visibility','visible');
-      //    $('#secondScreen').fadeIn("slow");
+          if (playPlayer.prop("checked")) {
+            if(secondNameInput.val() === "") {
+              alert("Enter second player's name");
+            }
+            else {
+              board.opponentName = secondNameInput.val();
+              header.text("Welcome " + board.name + " and " + board.opponentName + "!");
+              choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+              $(this).remove();
+              $('#nameLabel').remove();
+              $('#score').text(name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
+
+              $('#startScreen').css('visibility','hidden');
+              $('#secondScreen').css('visibility','visible');
+
+              $('#secondNameInput').remove();
+              $('#secondNameLabel').remove();
+            }
+          }
+
+          else if (playComputer.prop("checked")) {
+            if ($(this).val() === "") {
+              alert("Please enter name");
+            }
+            else {
+              header.text("Welcome " + board.name + "!");
+
+              $(this).remove();
+              $('#nameLabel').remove();
+              $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
+              choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+
+              $('#startScreen').css('visibility','hidden');
+              $('#secondScreen').css('visibility','visible');
+            }
+          }
         }
       }
     });
-
-
 
     //set x and o button handlers
     chooseX.on('click', function () {
       board.currentSymbol = "X";
       board.playerSymbol = "X";
       board.otherSymbol = "O";
-      choiceDisplay.text("You choose X (Giants)");
-      // $('#X').css('display', 'none');
-      // $('#O').css('display', 'none');
-//      $('#coin').css('display', 'inline-block');
-      // $('.board').css('display', 'block');
-      // $('#newgame').css('display', 'inline-block');
+      choiceDisplay.text(board.name + " chooses X (Giants)");
     });
 
     chooseO.on('click', function () {
       board.currentSymbol = "O";
       board.playerSymbol = "O";
       board.otherSymbol = "X";
-      choiceDisplay.text("You choose O (Jets)");
-      // $('#labels').css('display', 'none');
-      // $('#X').css('display', 'none');
-      // $('#O').css('display', 'none');
-      // $('.board').css('display', 'block');
-      // $('#newgame').css('display', 'inline-block');
+      choiceDisplay.text(board.name + " chooses O (Jets)");
     });
-
-    // heads.on('click', function () {
-    //   console.log("clicked");
-    //   board.pickFirstPlayer('Heads');
-    // });
 
     var square1 = $('.1'),
         square2 = $('.2'),

@@ -10,6 +10,19 @@ body {
   background-image: url("http://dailyfantasysportsreviews.info/wp-content/uploads/2013/10/football-field.jpg");
 }
 
+.football {
+  background-image: url("http://dailyfantasysportsreviews.info/wp-content/uploads/2013/10/football-field.jpg");
+}
+
+.basketball {
+  background-image: url("https://amazingpict.com/wp-content/uploads/2014/02/Basketball-Court-Wallpaper-for-Free.jpg");
+  color: white;
+}
+
+.baseball {
+  background-image: url("https://expertbeacon.com/sites/default/files/how_to_manage_and_maintain_the_perfect_baseball_field.jpg");
+}
+
 h1, h4{
   color: red;
   background: black;
@@ -24,7 +37,9 @@ h3 {
 
 
 #options {
-  margin: 10px 250px;
+  display: inline;
+  text-align: center;
+  width: 50%;
 }
 
 .form-group {
@@ -84,9 +99,6 @@ h3 {
   visibility: hidden;
 }
 
-
-/*
-#options, .board, #newgame {
-  display: none;
+#playPlayer, #playComputer {
+  margin: 0 0;
 }
-*/

@@ -4,6 +4,7 @@ var board = {
   opponentName: undefined,
   playerSymbol: undefined,
   otherSymbol: undefined,
+  symbolPicker: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
   strategicMoveOptions: [],
@@ -225,11 +226,18 @@ var board = {
     reset: function () {
       var choiceDisplay = $('h3');
       this.currentSymbol = undefined;
+  //    this.symbolPicker = undefined;
 
       this.boardState = ["","","","","","","","",""];
       boardView.render();
 
-      choiceDisplay.text(this.name + ", choose X (Giants) or O (Jets)");
+      if (this.opponentName != "Computer") {
+        this.symbolPicker = (Math.floor(Math.random() * 2) == 0) ? this.name : this.opponentName;
+        choiceDisplay.text(this.symbolPicker + ", choose X (Giants) or O (Jets)");
+      } else {
+        choiceDisplay.text(this.name + ", choose X (Giants) or O (Jets)");
+      }
+
       this.playerSymbol = undefined;
       this.otherSymbol = undefined;
       this.winner = undefined;
@@ -247,19 +255,30 @@ var board = {
   thisView: this,
 
   setHandlers: function () {
-    var nameInput = $('#nameInput'),
+    var newGame = $("#newgame"),
+        nameInput = $('#nameInput'),
         playPlayer = $('#playPlayer'),
         playComputer = $('#playComputer'),
         secondNameInput = $('#secondNameInput'),
+        secondNameLabel = $('#secondNameLabel'),
         chooseX = $('#X'),
         chooseO = $('#O'),
         choiceDisplay = $('h3'),
         tictactoeBoard = $('.board'),
         heads = $('#heads'),
-        tails = $('#tails');
+        tails = $('#tails'),
+        footballTheme = $('#football'),
+        basketballTheme = $('#basketball');
 
+    footballTheme.on('click', function () {
+      $('body').addClass('football').removeClass('basketball');
+    });
+
+    basketballTheme.on('click', function () {
+      $('body').addClass('basketball').removeClass('football');
+    });
     //set new game handlers
-    $("#newgame").on('click', function () {
+    newGame.on('click', function () {
       $('.board').addClass('responsive');
       if ($('#O').prop("checked") == false && $('#X').prop("checked") == false) {
         alert("Please select X or O");
@@ -272,6 +291,12 @@ var board = {
         board.playerSymbol = "X";
         board.otherSymbol = "O";
         board.pickFirstPlayer();
+      }
+
+      if (board.currentSymbol == board.playerSymbol) {
+        $('h3').text(board.name + "'s turn");
+      } else {
+        $('h3').text(board.opponentName + "'s turn");
       }
 
     });
@@ -310,6 +335,8 @@ var board = {
       if (nameInput.val() != "") {
         $('#startScreen').css('visibility','hidden');
         $('#secondScreen').css('visibility','visible');
+        $('#secondNameLabel').remove();
+        $('#secondNameInput').remove();
 
         board.name = nameInput.val();
         $('h1').text("Welcome " + board.name + "!");
@@ -348,6 +375,7 @@ var board = {
 
               $('#secondNameInput').remove();
               $('#secondNameLabel').remove();
+
             }
           }
 
@@ -362,7 +390,8 @@ var board = {
               $('#nameLabel').remove();
               $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
               choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-
+              $('#secondNameInput').remove();
+              $('#secondNameLabel').remove();
               $('#startScreen').css('visibility','hidden');
               $('#secondScreen').css('visibility','visible');
             }
@@ -376,7 +405,11 @@ var board = {
       board.currentSymbol = "X";
       board.playerSymbol = "X";
       board.otherSymbol = "O";
-      choiceDisplay.text(board.name + " chooses X (Giants)");
+      if (board.symbolPicker === undefined) {
+        choiceDisplay.text(board.name + " chooses X (Giants)");
+      } else {
+        choiceDisplay.text(board.symbolPicker + " chooses X (Giants)");
+      }
       $('#labels').css('visibility', 'hidden');
     });
 
@@ -384,7 +417,11 @@ var board = {
       board.currentSymbol = "O";
       board.playerSymbol = "O";
       board.otherSymbol = "X";
-      choiceDisplay.text(board.name + " chooses O (Jets)");
+      if (board.symbolPicker === undefined) {
+        choiceDisplay.text(board.name + " chooses O (Jets)");
+      } else {
+        choiceDisplay.text(board.symbolPicker + " chooses O (Jets)");
+      }
       $('#labels').css('visibility', 'hidden');
     });
 

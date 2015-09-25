@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <title>Tic Tac Toe</title>
   </head>
-  <body>
+  <body class = "football">
   <div id='startScreen'>
     <div class="form-group">
         <label for="exampleInputName2" id = "nameLabel">Enter Name</label>
@@ -24,9 +24,13 @@
           <label for="exampleInputName2" id = "secondNameLabel">Enter Second Player's Name</label>
           <input type="text" class="form-control" id="secondNameInput">
       </div>
+      <ul id = "themes">
+        <button id = "football">Football</button>
+        <button id = "basketball">Basketball</button>
+        <button id = "baseball">Baseball</button>
+      </ul>
   <div id='secondScreen'>
   <h1>Welcome to Tic Tac Toe!</h1>
-  <div id = "header">
     <div id = "options">
       <h3>Choose X (Giants) or O (Jets)</h3>
       <div id = "labels">
@@ -37,14 +41,6 @@
             <input type="radio" name="optionsRadios" id="O" value="O">
           O</label>
         </div>
-  </div>
-  <div id = "coin">
-    <h4>Pick Heads or Tails to go first</h4>
-    <img id = "coinImage" src = "http://americathebeautifulsilvercoins.com/wp-content/uploads/2010/04/2015-America-the-Beautiful-Silver-Bullion-Coin-Obverse.jpg">
-    <ul>
-      <button id = "#heads">Heads</button>
-      <button id = "#tails">Tails</button>
-  </div>
   </div>
   <div class = "board">
     <div class = "row1">
@@ -65,6 +61,11 @@
   </div>
   <button id = "newgame" type="button" class="btn btn-primary btn-lg">Start</button>
   <h4 id = "score">Player: 0 Computer: 0</h4>
+  <ul id = "themes">
+    <button>Football</button>
+    <button>Basketball</button>
+    <button>Baseball</button>
+  </ul>
   <script src="app.js"></script>
 </div>
 </div>

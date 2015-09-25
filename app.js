@@ -6,7 +6,7 @@ var board = {
   otherSymbol: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
-  nextToTwo: [],
+  strategicMoveOptions: [],
   fullBoard: undefined,
   winner: undefined,
   playerScore: 0,
@@ -55,11 +55,73 @@ var board = {
     }
   },
 
-  checkForTwo: function (cell) {
-    // if (cell.hasClass('1')) {
-    //   if ()
-    // }
+  checkForTwo: function (position) {
+    if (position === 0) {
+      if ((this.boardState[1] != "" && this.boardState[1] === this.boardState[2])
+          || (this.boardState[3] != "" && this.boardState[3] === this.boardState[6])
+          || (this.boardState[4] != "" && this.boardState[4] === this.boardState[8])) {
+            this.strategicMoveOptions.push(0);
+          }
+        }
+      else if (position === 1) {
+        if ((this.boardState[0] != "" && this.boardState[0] === this.boardState[2])
+            || (this.boardState[4] != "" && this.boardState[4] === this.boardState[7])) {
+              this.strategicMoveOptions.push(1);
+          }
+        }
 
+      else if (position === 2) {
+        if ((this.boardState[0] != "" && this.boardState[0] === this.boardState[1])
+            || (this.boardState[4] != "" && this.boardState[4] === this.boardState[6])
+            || (this.boardState[5] != "" && this.boardState[5] === this.boardState[8])) {
+              this.strategicMoveOptions.push(2);
+          }
+        }
+
+      else if (position === 3) {
+        if ((this.boardState[0] != "" && this.boardState[0] === this.boardState[6])
+            || (this.boardState[4] != "" && this.boardState[4] === this.boardState[5])) {
+              this.strategicMoveOptions.push(3);
+          }
+        }
+
+      else if (position === 4) {
+        if ((this.boardState[0] != "" && this.boardState[0] === this.boardState[8])
+            || (this.boardState[1] != "" && this.boardState[1] === this.boardState[7])
+            || (this.boardState[2] != "" && this.boardState[2] === this.boardState[6])
+            || (this.boardState[3] != "" && this.boardState[3] === this.boardState[5])) {
+              this.strategicMoveOptions.push(4);
+          }
+        }
+
+      else if (position === 5) {
+        if ((this.boardState[2] != "" && this.boardState[2] === this.boardState[8])
+            || (this.boardState[3] != "" && this.boardState[3] === this.boardState[4])) {
+              this.strategicMoveOptions.push(5);
+          }
+        }
+
+      else if (position === 6) {
+        if ((this.boardState[0] != "" && this.boardState[0] === this.boardState[3])
+            || (this.boardState[7] != "" && this.boardState[7] === this.boardState[8])
+            || (this.boardState[2] != "" && this.boardState[2] === this.boardState[4])) {
+              this.strategicMoveOptions.push(6);
+          }
+        }
+
+      else if (position === 7) {
+        if ((this.boardState[1] != "" && this.boardState[1] === this.boardState[4])
+            || (this.boardState[6] != "" && this.boardState[6] === this.boardState[8])) {
+              this.strategicMoveOptions.push(7);
+          }
+        }
+      else {
+        if ((this.boardState[6] != "" && this.boardState[6] === this.boardState[7])
+            || (this.boardState[2] != "" && this.boardState[2] === this.boardState[5])
+            || (this.boardState[0] != "" && this.boardState[0] === this.boardState[4])) {
+              this.strategicMoveOptions.push(8);
+          }
+      }
 
   },
 
@@ -165,8 +227,6 @@ var board = {
       $('#O').prop("checked", false);
       $('#labels').css('visibility', 'visible');
 
-      // $('#label1').css('display', 'inline-block');
-      // $('#label2').css('display', 'inline-block');
 
     },
   };

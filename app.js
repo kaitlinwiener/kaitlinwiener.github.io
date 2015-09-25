@@ -6,6 +6,7 @@ var board = {
   otherSymbol: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
+  nextToTwo: [],
   fullBoard: undefined,
   winner: undefined,
   playerScore: 0,
@@ -52,6 +53,14 @@ var board = {
         $('h3').text(this.opponentName + "'s turn");
       }
     }
+  },
+
+  checkForTwo: function (cell) {
+    // if (cell.hasClass('1')) {
+    //   if ()
+    // }
+
+
   },
 
   computerMove: function () {
@@ -154,6 +163,7 @@ var board = {
       $('.board').css('cursor', 'default');
       $('#X').prop("checked", false);
       $('#O').prop("checked", false);
+      $('#labels').css('visibility', 'visible');
 
       // $('#label1').css('display', 'inline-block');
       // $('#label2').css('display', 'inline-block');
@@ -295,6 +305,7 @@ var board = {
       board.playerSymbol = "X";
       board.otherSymbol = "O";
       choiceDisplay.text(board.name + " chooses X (Giants)");
+      $('#labels').css('visibility', 'hidden');
     });
 
     chooseO.on('click', function () {
@@ -302,6 +313,7 @@ var board = {
       board.playerSymbol = "O";
       board.otherSymbol = "X";
       choiceDisplay.text(board.name + " chooses O (Jets)");
+      $('#labels').css('visibility', 'hidden');
     });
 
     var square1 = $('.1'),

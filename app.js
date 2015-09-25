@@ -133,16 +133,28 @@ var board = {
           availableOptions.push(i);
         }
       }
-      var availableOptionsLength = availableOptions.length;
-      var randomNumber = Math.floor(Math.random()*availableOptionsLength);
+      for (var j=0; j<availableOptions.length; j++) {
+        this.checkForTwo(availableOptions[j]);
+      }
 
-      var computerChoice = availableOptions[randomNumber];
+      if (this.strategicMoveOptions.length == 0) {
+         var availableOptionsLength = availableOptions.length;
+         var randomNumber = Math.floor(Math.random()*availableOptionsLength);
 
-      this.boardState[computerChoice] = this.otherSymbol;
+         var computerChoice = availableOptions[randomNumber];
+
+         this.boardState[computerChoice] = this.otherSymbol;
+      } else {
+          var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
+          var computerChoice = this.strategicMoveOptions[randomNumber];
+
+          this.boardState[computerChoice] = this.otherSymbol;
+    }
 
       boardView.render();
       board.determineWinner();
       board.switchPlayer();
+      board.strategicMoveOptions = [];
     }
 
   },
@@ -226,7 +238,7 @@ var board = {
       $('#X').prop("checked", false);
       $('#O').prop("checked", false);
       $('#labels').css('visibility', 'visible');
-
+      $('.board').removeClass('responsive');
 
     },
   };
@@ -248,7 +260,7 @@ var board = {
 
     //set new game handlers
     $("#newgame").on('click', function () {
-      //board.reset();
+      $('.board').addClass('responsive');
       if ($('#O').prop("checked") == false && $('#X').prop("checked") == false) {
         alert("Please select X or O");
       }
@@ -387,7 +399,7 @@ var board = {
         square9 = $('.9');
 
     square1.on('click', function () {
-      if (square1.text() == "") {
+      if (square1.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[0] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -403,7 +415,7 @@ var board = {
     })
 
     square2.on('click', function () {
-      if (square2.text() == "") {
+      if (square2.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[1] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -419,7 +431,7 @@ var board = {
     })
 
     square3.on('click', function () {
-      if (square3.text() == "") {
+      if (square3.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[2] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -435,7 +447,7 @@ var board = {
     })
 
     square4.on('click', function () {
-      if (square4.text() == "") {
+      if (square4.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[3] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -451,7 +463,7 @@ var board = {
     })
 
     square5.on('click', function () {
-      if (square5.text() == "") {
+      if (square5.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[4] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -467,7 +479,7 @@ var board = {
     })
 
     square6.on('click', function () {
-      if (square6.text() == "") {
+      if (square6.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[5] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -483,7 +495,7 @@ var board = {
     })
 
     square7.on('click', function () {
-      if (square7.text() == "") {
+      if (square7.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[6] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -500,7 +512,7 @@ var board = {
     })
 
     square8.on('click', function () {
-      if (square8.text() == "") {
+      if (square8.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[7] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
@@ -516,7 +528,7 @@ var board = {
     })
 
     square9.on('click', function () {
-      if (square9.text() == "") {
+      if (square9.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[8] = board.currentSymbol;
         boardView.render();
         board.determineWinner();

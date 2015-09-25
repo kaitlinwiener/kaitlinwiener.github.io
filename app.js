@@ -20,19 +20,19 @@ var board = {
       this.computerMove();
     }
     if (this.currentSymbol === "O") {
-      $('.board').css('cursor', 'url("https://i.ppy.sh/9477d15f1f619eb775eaf3e485ed33b0038d8989/687474703a2f2f7075752e73682f3133674a61"), default');
-    } else {$('.board').css('cursor', 'url("http://geeko.ioda.net/git/art/cursors/dmz-aa/pngs/32x32/X_cursor.png"), default');}
+      $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
+    } else {$('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');}
 
   },
 
   switchPlayer: function() {
     if (this.currentSymbol == "X") {
       this.currentSymbol = "O";
-      $('.board').css('cursor', 'url("https://i.ppy.sh/9477d15f1f619eb775eaf3e485ed33b0038d8989/687474703a2f2f7075752e73682f3133674a61"), default');
+      $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
     }
     else if (this.currentSymbol == "O") {
       this.currentSymbol = "X";
-      $('.board').css('cursor', 'url("http://geeko.ioda.net/git/art/cursors/dmz-aa/pngs/32x32/X_cursor.png"), default');
+      $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
     }
   },
 
@@ -121,13 +121,13 @@ var board = {
     },
 
     reset: function () {
-      var choiceDisplay = $('h2');
+      var choiceDisplay = $('h3');
       this.currentSymbol = undefined;
 
       this.boardState = ["","","","","","","","",""];
       boardView.render();
 
-      choiceDisplay.text("Choose X or O");
+      choiceDisplay.text("Choose X (Giants) or O (Jets)");
       this.playerSymbol = undefined;
       this.computerSymbol = undefined;
       this.winner = undefined;
@@ -139,7 +139,6 @@ var board = {
       // $('#label1').css('display', 'inline-block');
       // $('#label2').css('display', 'inline-block');
 
-      console.log(this.boardState);
     },
   };
 
@@ -150,7 +149,7 @@ var board = {
     var nameInput = $('#nameInput');
     var chooseX = $('#X');
     var chooseO = $('#O');
-    var choiceDisplay = $('h2');
+    var choiceDisplay = $('h3');
     var tictactoeBoard = $('.board');
     var heads = $('#heads');
     var tails = $('#tails');
@@ -184,9 +183,10 @@ var board = {
         $('#nameLabel').remove();
         $('#score').text(name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
         // $('#options').css('display', 'inline-block');
-        $('#startScreen').css('visibility','hidden');
-        $('#secondScreen').css('visibility','visible');
 
+       $('#startScreen').css('visibility','hidden');
+       $('#secondScreen').css('visibility','visible');
+    //    $('#secondScreen').fadeIn("slow");
       }
     });
 
@@ -195,7 +195,7 @@ var board = {
       board.currentSymbol = "X";
       board.playerSymbol = "X";
       board.computerSymbol = "O";
-      choiceDisplay.text("You choose X");
+      choiceDisplay.text("You choose X (Giants)");
       // $('#X').css('display', 'none');
       // $('#O').css('display', 'none');
 //      $('#coin').css('display', 'inline-block');
@@ -207,7 +207,7 @@ var board = {
       board.currentSymbol = "O";
       board.playerSymbol = "O";
       board.computerSymbol = "X";
-      choiceDisplay.text("You choose O");
+      choiceDisplay.text("You choose O (Jets)");
       // $('#labels').css('display', 'none');
       // $('#X').css('display', 'none');
       // $('#O').css('display', 'none');
@@ -240,7 +240,7 @@ var board = {
 
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -254,7 +254,7 @@ var board = {
 
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -268,7 +268,7 @@ var board = {
 
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -281,7 +281,7 @@ var board = {
         board.switchPlayer();
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -294,7 +294,7 @@ var board = {
         board.switchPlayer();
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -307,7 +307,7 @@ var board = {
         board.switchPlayer();
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -320,7 +320,7 @@ var board = {
         board.switchPlayer();
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -334,7 +334,7 @@ var board = {
 
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 
@@ -348,7 +348,7 @@ var board = {
 
         setTimeout(function () {
           board.computerMove();
-        }, 1000);
+        }, 1500);
       }
     })
 

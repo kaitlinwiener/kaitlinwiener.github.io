@@ -26,15 +26,36 @@ var board = {
       }
     }
     if (this.currentSymbol === "O") {
-      $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
-    } else {$('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');}
+      if ($('body').hasClass('football')) {
+        $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
+      } else if ($('body').hasClass('basketball')) {
+        $('.board').css('cursor', 'url("http://www.nba.com/media/njn_50px.gif"), default');
+      } else {
+        $('.board').css('cursor', 'url("https://lh3.googleusercontent.com/-GWZ5tpqutFI/AAAAAAAAAAI/AAAAAAAAT8I/pder2YoCqKE/s46-c-k-no/photo.jpg"), default');
+      }
 
+    } else {
+        if ($('body').hasClass('football')) {
+          $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
+        } else if ($('body').hasClass('basketball')) {
+          $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/378800000581876664/655755f8e7f689a29dc69ca3382fc676_normal.jpeg"), default');
+        } else {
+          $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/619233476978569216/eyNgj0_K_normal.jpg"), default');
+        }
+    }
   },
 
   switchPlayer: function() {
     if (this.currentSymbol == "X") {
       this.currentSymbol = "O";
-      $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
+
+      if ($('body').hasClass('football')) {
+        $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
+      } else if ($('body').hasClass('basketball')) {
+        $('.board').css('cursor', 'url("http://www.nba.com/media/njn_50px.gif"), default');
+      } else {
+        $('.board').css('cursor', 'url("https://lh3.googleusercontent.com/-GWZ5tpqutFI/AAAAAAAAAAI/AAAAAAAAT8I/pder2YoCqKE/s46-c-k-no/photo.jpg"), default');
+      }
 
       if (this.playerSymbol == "0") {
         $('h3').text(this.name + "'s turn");
@@ -45,7 +66,14 @@ var board = {
     }
     else if (this.currentSymbol == "O") {
       this.currentSymbol = "X";
-      $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
+
+        if ($('body').hasClass('football')) {
+          $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
+        } else if ($('body').hasClass('basketball')) {
+          $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/378800000581876664/655755f8e7f689a29dc69ca3382fc676_normal.jpeg"), default');
+        } else {
+          $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/619233476978569216/eyNgj0_K_normal.jpg"), default');
+        }
 
       if (this.playerSymbol = "X") {
         $('h3').text(this.name + "'s turn");
@@ -267,15 +295,21 @@ var board = {
         tictactoeBoard = $('.board'),
         heads = $('#heads'),
         tails = $('#tails'),
+        themes = $('#themes'),
         footballTheme = $('#football'),
-        basketballTheme = $('#basketball');
+        basketballTheme = $('#basketball'),
+        baseballTheme = $('#baseball');
 
     footballTheme.on('click', function () {
-      $('body').addClass('football').removeClass('basketball');
+      $('body').addClass('football').removeClass('basketball').removeClass('baseball');
     });
 
     basketballTheme.on('click', function () {
-      $('body').addClass('basketball').removeClass('football');
+      $('body').addClass('basketball').removeClass('football').removeClass('baseball');
+    });
+
+    baseballTheme.on('click', function () {
+      $('body').addClass('baseball').removeClass('basketball').removeClass('football');
     });
     //set new game handlers
     newGame.on('click', function () {
@@ -322,6 +356,7 @@ var board = {
           choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
           $(this).remove();
           $('#secondNameLabel').remove();
+          $('#football').remove();
           $('#startScreen').css('visibility','hidden');
           $('#secondScreen').css('visibility','visible');
         }
@@ -333,14 +368,24 @@ var board = {
       board.opponentName = "Computer";
 
       if (nameInput.val() != "") {
+        $('#football').remove();
         $('#startScreen').css('visibility','hidden');
         $('#secondScreen').css('visibility','visible');
         $('#secondNameLabel').remove();
         $('#secondNameInput').remove();
+        $('#football').remove();
 
         board.name = nameInput.val();
         $('h1').text("Welcome " + board.name + "!");
-        choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+
+        if ($('body').hasClass('football')) {
+          choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+        } else if ($('body').hasClass('basketball')) {
+          choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
+        } else {
+          choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+        }
+
         $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
 
       }
@@ -365,7 +410,15 @@ var board = {
             else {
               board.opponentName = secondNameInput.val();
               header.text("Welcome " + board.name + " and " + board.opponentName + "!");
-              choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+
+              if ($('body').hasClass('football')) {
+                choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+              } else if ($('body').hasClass('basketball')) {
+                choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
+              } else {
+                choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+              }
+
               $(this).remove();
               $('#nameLabel').remove();
               $('#score').text(name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
@@ -375,6 +428,7 @@ var board = {
 
               $('#secondNameInput').remove();
               $('#secondNameLabel').remove();
+              $('#football').remove();
 
             }
           }
@@ -389,9 +443,18 @@ var board = {
               $(this).remove();
               $('#nameLabel').remove();
               $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
-              choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+
+              if ($('body').hasClass('football')) {
+                choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+              } else if ($('body').hasClass('basketball')) {
+                choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
+              } else {
+                choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+              }
+
               $('#secondNameInput').remove();
               $('#secondNameLabel').remove();
+              $('#football').remove();
               $('#startScreen').css('visibility','hidden');
               $('#secondScreen').css('visibility','visible');
             }
@@ -406,9 +469,9 @@ var board = {
       board.playerSymbol = "X";
       board.otherSymbol = "O";
       if (board.symbolPicker === undefined) {
-        choiceDisplay.text(board.name + " chooses X (Giants)");
+        choiceDisplay.text(board.name + " chooses X");
       } else {
-        choiceDisplay.text(board.symbolPicker + " chooses X (Giants)");
+        choiceDisplay.text(board.symbolPicker + " chooses X");
       }
       $('#labels').css('visibility', 'hidden');
     });
@@ -418,9 +481,9 @@ var board = {
       board.playerSymbol = "O";
       board.otherSymbol = "X";
       if (board.symbolPicker === undefined) {
-        choiceDisplay.text(board.name + " chooses O (Jets)");
+        choiceDisplay.text(board.name + " chooses O");
       } else {
-        choiceDisplay.text(board.symbolPicker + " chooses O (Jets)");
+        choiceDisplay.text(board.symbolPicker + " chooses O");
       }
       $('#labels').css('visibility', 'hidden');
     });

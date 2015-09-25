@@ -10,17 +10,9 @@ body {
   background-image: url("http://dailyfantasysportsreviews.info/wp-content/uploads/2013/10/football-field.jpg");
 }
 
-.football {
-  background-image: url("http://dailyfantasysportsreviews.info/wp-content/uploads/2013/10/football-field.jpg");
-}
-
-.basketball {
-  background-image: url("https://amazingpict.com/wp-content/uploads/2014/02/Basketball-Court-Wallpaper-for-Free.jpg");
+button {
+  background-color: black;
   color: white;
-}
-
-.baseball {
-  background-image: url("https://expertbeacon.com/sites/default/files/how_to_manage_and_maintain_the_perfect_baseball_field.jpg");
 }
 
 h1, h4{
@@ -33,18 +25,6 @@ h1, h4{
 
 h3 {
   font-style: italic;
-}
-
-
-#options {
-  display: inline;
-  text-align: center;
-  width: 50%;
-}
-
-.form-group {
-  width: 400px;
-  margin: 0 auto;
 }
 
 .board{
@@ -61,6 +41,36 @@ h3 {
   line-height: 100px;
   float: left;
   background: lightgrey;
+}
+
+.cell:hover {
+  background-color: steelblue;
+}
+
+.football {
+  background-image: url("http://dailyfantasysportsreviews.info/wp-content/uploads/2013/10/football-field.jpg");
+  color: white;
+}
+
+.basketball {
+  background-image: url("https://amazingpict.com/wp-content/uploads/2014/02/Basketball-Court-Wallpaper-for-Free.jpg");
+  color: white;
+}
+
+.baseball {
+  background-image: url("https://expertbeacon.com/sites/default/files/how_to_manage_and_maintain_the_perfect_baseball_field.jpg");
+  color: white;
+}
+
+.form-group {
+  width: 400px;
+  margin: 0 auto;
+}
+
+#options {
+  display: inline;
+  text-align: center;
+  width: 50%;
 }
 
 #newgame {
@@ -87,12 +97,10 @@ h3 {
   visibility: hidden;
 }
 
-#score {
-  border: 2px black solid;
-}
-
-.cell:hover {
-  background-color: steelblue;
+#names {
+  display: inline;
+  width: 100px;
+  height: 100px;
 }
 
 #secondNameLabel, #secondNameInput {
@@ -101,4 +109,12 @@ h3 {
 
 #playPlayer, #playComputer {
   margin: 0 0;
+}
+
+#themes {
+  margin-top: 15px;
+}
+
+#score {
+  border: 2px black solid;
 }

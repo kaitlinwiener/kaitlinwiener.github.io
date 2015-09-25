@@ -261,9 +261,9 @@ var board = {
 
       if (this.opponentName != "Computer") {
         this.symbolPicker = (Math.floor(Math.random() * 2) == 0) ? this.name : this.opponentName;
-        choiceDisplay.text(this.symbolPicker + ", choose X (Giants) or O (Jets)");
+        choiceDisplay.text(this.symbolPicker + ", choose X or O");
       } else {
-        choiceDisplay.text(this.name + ", choose X (Giants) or O (Jets)");
+        choiceDisplay.text(this.name + ", choose X or O");
       }
 
       this.playerSymbol = undefined;
@@ -316,6 +316,7 @@ var board = {
       $('.board').addClass('responsive');
       if ($('#O').prop("checked") == false && $('#X').prop("checked") == false) {
         alert("Please select X or O");
+        $('.board').removeClass('responsive');
       }
       else if ($('#O').prop("checked")) {
         board.playerSymbol = "O";
@@ -327,9 +328,9 @@ var board = {
         board.pickFirstPlayer();
       }
 
-      if (board.currentSymbol == board.playerSymbol) {
+      if (board.currentSymbol != undefined && board.currentSymbol == board.playerSymbol) {
         $('h3').text(board.name + "'s turn");
-      } else {
+      } else if (board.currentSymbol != undefined && board.currentSymbol != board.playerSymbol) {
         $('h3').text(board.opponentName + "'s turn");
       }
 
@@ -353,7 +354,15 @@ var board = {
           board.name = nameInput.val();
           $('h1').text("Welcome " + board.name + " and " + board.opponentName + "!");
           $('#score').text(board.name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
-          choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+
+          if ($('body').hasClass('football')) {
+            choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+          } else if ($('body').hasClass('basketball')) {
+            choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
+          } else {
+            choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+          }
+
           $(this).remove();
           $('#secondNameLabel').remove();
           $('#football').remove();

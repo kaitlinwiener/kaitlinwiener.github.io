@@ -47,6 +47,11 @@ h3 {
   background-color: steelblue;
 }
 
+.classic {
+  background-image: none;
+  background-color: floralwhite;
+}
+
 .football {
   background-image: url("http://dailyfantasysportsreviews.info/wp-content/uploads/2013/10/football-field.jpg");
   color: white;

@@ -30,8 +30,10 @@ var board = {
         $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
       } else if ($('body').hasClass('basketball')) {
         $('.board').css('cursor', 'url("http://www.nba.com/media/njn_50px.gif"), default');
-      } else {
+      } else if ($('body').hasClass('baseball'))  {
         $('.board').css('cursor', 'url("https://lh3.googleusercontent.com/-GWZ5tpqutFI/AAAAAAAAAAI/AAAAAAAAT8I/pder2YoCqKE/s46-c-k-no/photo.jpg"), default');
+      } else {
+        $('.board').css('cursor', 'url("https://static.globalcitizen.org/static/img/o-logo.a54ec4957321.png"), default');
       }
 
     } else {
@@ -39,8 +41,10 @@ var board = {
           $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
         } else if ($('body').hasClass('basketball')) {
           $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/378800000581876664/655755f8e7f689a29dc69ca3382fc676_normal.jpeg"), default');
-        } else {
+        } else if ($('body').hasClass('baseball')){
           $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/619233476978569216/eyNgj0_K_normal.jpg"), default');
+        } else {
+          $('.board').css('cursor', 'url("https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png"), default');
         }
     }
   },
@@ -53,8 +57,10 @@ var board = {
         $('.board').css('cursor', 'url("http://multimedia.3m.com/mws/media/912031P/scotch-r-nfl-tape-dispenser-c32-helmet-nyj.jpg?boundedSize=40"), default');
       } else if ($('body').hasClass('basketball')) {
         $('.board').css('cursor', 'url("http://www.nba.com/media/njn_50px.gif"), default');
-      } else {
+      } else if ($('body').hasClass('baseball'))  {
         $('.board').css('cursor', 'url("https://lh3.googleusercontent.com/-GWZ5tpqutFI/AAAAAAAAAAI/AAAAAAAAT8I/pder2YoCqKE/s46-c-k-no/photo.jpg"), default');
+      } else {
+        $('.board').css('cursor', 'url("https://static.globalcitizen.org/static/img/o-logo.a54ec4957321.png"), default');
       }
 
       if (this.playerSymbol == "0") {
@@ -71,8 +77,10 @@ var board = {
           $('.board').css('cursor', 'url("http://cdn.sportsmemorabilia.com/sports-product-image/new_york_giants-l283-45.jpg"), default');
         } else if ($('body').hasClass('basketball')) {
           $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/378800000581876664/655755f8e7f689a29dc69ca3382fc676_normal.jpeg"), default');
-        } else {
+        } else if ($('body').hasClass('baseball')){
           $('.board').css('cursor', 'url("https://pbs.twimg.com/profile_images/619233476978569216/eyNgj0_K_normal.jpg"), default');
+        } else {
+          $('.board').css('cursor', 'url("https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png"), default');
         }
 
       if (this.playerSymbol = "X") {
@@ -82,6 +90,15 @@ var board = {
         $('h3').text(this.opponentName + "'s turn");
       }
     }
+  },
+
+  checkEmpty: function () {
+    for (var i=0; i<this.boardState.length; i++) {
+      if (this.boardState[i] != "") {
+        return false;
+      }
+    }
+    return true;
   },
 
   checkForTwo: function (position) {
@@ -296,36 +313,46 @@ var board = {
         heads = $('#heads'),
         tails = $('#tails'),
         themes = $('#themes'),
+        classicTheme = $('#classic')
         footballTheme = $('#football'),
         basketballTheme = $('#basketball'),
         baseballTheme = $('#baseball');
 
+    classicTheme.on('click', function () {
+      $('body').addClass('classic').removeClass("football").removeClass('basketball').removeClass('baseball');
+    });
+
     footballTheme.on('click', function () {
-      $('body').addClass('football').removeClass('basketball').removeClass('baseball');
+      $('body').addClass('football').removeClass("classic").removeClass('basketball').removeClass('baseball');
     });
 
     basketballTheme.on('click', function () {
-      $('body').addClass('basketball').removeClass('football').removeClass('baseball');
+      $('body').addClass('basketball').removeClass("classic").removeClass('football').removeClass('baseball');
     });
 
     baseballTheme.on('click', function () {
-      $('body').addClass('baseball').removeClass('basketball').removeClass('football');
+      $('body').addClass('baseball').removeClass("classic").removeClass('basketball').removeClass('football');
     });
+
     //set new game handlers
     newGame.on('click', function () {
       $('.board').addClass('responsive');
+      var gameInPlay = board.checkEmpty();
+
       if ($('#O').prop("checked") == false && $('#X').prop("checked") == false) {
         alert("Please select X or O");
-        $('.board').removeClass('responsive');
+        $('.board').addClass('responsive');
       }
-      else if ($('#O').prop("checked")) {
+      else if ($('#O').prop("checked") && gameInPlay == true) {
         board.playerSymbol = "O";
         board.otherSymbol = "X";
         board.pickFirstPlayer();
-      } else {
+      } else if ($('#X').prop("checked") && gameInPlay == true) {
         board.playerSymbol = "X";
         board.otherSymbol = "O";
         board.pickFirstPlayer();
+      } else if (gameInPlay == false ) {
+        board.reset();
       }
 
       if (board.currentSymbol != undefined && board.currentSymbol == board.playerSymbol) {
@@ -359,13 +386,14 @@ var board = {
             choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
           } else if ($('body').hasClass('basketball')) {
             choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-          } else {
+          } else if ($('body').hasClass('baseball')){
             choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+          } else {
+            choiceDisplay.text(board.name + ", choose X or O");
           }
 
           $(this).remove();
           $('#secondNameLabel').remove();
-          $('#football').remove();
           $('#startScreen').css('visibility','hidden');
           $('#secondScreen').css('visibility','visible');
         }
@@ -377,12 +405,11 @@ var board = {
       board.opponentName = "Computer";
 
       if (nameInput.val() != "") {
-        $('#football').remove();
         $('#startScreen').css('visibility','hidden');
         $('#secondScreen').css('visibility','visible');
         $('#secondNameLabel').remove();
         $('#secondNameInput').remove();
-        $('#football').remove();
+
 
         board.name = nameInput.val();
         $('h1').text("Welcome " + board.name + "!");
@@ -391,8 +418,10 @@ var board = {
           choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
         } else if ($('body').hasClass('basketball')) {
           choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-        } else {
+        } else if ($('body').hasClass('baseball')){
           choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+        } else {
+          choiceDisplay.text(board.name + ", choose X or O");
         }
 
         $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
@@ -424,8 +453,10 @@ var board = {
                 choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
               } else if ($('body').hasClass('basketball')) {
                 choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-              } else {
+              } else if ($('body').hasClass('baseball')){
                 choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+              } else {
+                choiceDisplay.text(board.name + ", choose X or O");
               }
 
               $(this).remove();
@@ -437,7 +468,6 @@ var board = {
 
               $('#secondNameInput').remove();
               $('#secondNameLabel').remove();
-              $('#football').remove();
 
             }
           }
@@ -457,13 +487,14 @@ var board = {
                 choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
               } else if ($('body').hasClass('basketball')) {
                 choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-              } else {
+              } else if ($('body').hasClass('baseball')){
                 choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+              } else {
+                choiceDisplay.text(board.name + ", choose X or O");
               }
 
               $('#secondNameInput').remove();
               $('#secondNameLabel').remove();
-              $('#football').remove();
               $('#startScreen').css('visibility','hidden');
               $('#secondScreen').css('visibility','visible');
             }

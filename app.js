@@ -3,7 +3,7 @@ var board = {
   opponent: undefined,
   opponentName: undefined,
   playerSymbol: undefined,
-  otherSymbol: undefined,
+  opponentSymbol: undefined,
   symbolPicker: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
@@ -11,7 +11,7 @@ var board = {
   fullBoard: undefined,
   winner: undefined,
   playerScore: 0,
-  computerScore: 0,
+  opponentScore: 0,
 
   pickFirstPlayer: function () {
     var choosePlayer = Math.floor(Math.random()*2)
@@ -19,7 +19,7 @@ var board = {
       this.currentSymbol = this.playerSymbol;
       alert (this.name + " go first!");
     } else {
-      this.currentSymbol = this.otherSymbol;
+      this.currentSymbol = this.opponentSymbol;
       alert (this.opponentName + " moves first.")
       if (this.opponentName === "Computer") {
         this.computerMove();
@@ -172,7 +172,7 @@ var board = {
   },
 
   computerMove: function () {
-    if (this.currentSymbol == this.otherSymbol) {
+    if (this.currentSymbol == this.opponentSymbol) {
       var availableOptions = [];
       for (var i=0; i<this.boardState.length; i++) {
         if (this.boardState[i] == "") {
@@ -189,12 +189,12 @@ var board = {
 
          var computerChoice = availableOptions[randomNumber];
 
-         this.boardState[computerChoice] = this.otherSymbol;
+         this.boardState[computerChoice] = this.opponentSymbol;
       } else {
           var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
           var computerChoice = this.strategicMoveOptions[randomNumber];
 
-          this.boardState[computerChoice] = this.otherSymbol;
+          this.boardState[computerChoice] = this.opponentSymbol;
     }
 
       boardView.render();
@@ -250,7 +250,7 @@ var board = {
           this.playerScore +=1;
         } else {
             alert (this.opponentName + " wins!");
-            this.computerScore +=1;
+            this.opponentScore +=1;
         }
         this.reset();
       }
@@ -260,12 +260,12 @@ var board = {
           this.playerScore +=1;
         } else {
           alert (this.opponentName + " wins!");
-          this.computerScore +=1;
+          this.opponentScore +=1;
         }
         this.reset();
       }
 
-      $('#score').text(this.name + ": "+ board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
+      $('#score').text(this.name + ": "+ board.playerScore + " vs. " + board.opponentName + ": " + board.opponentScore);
     },
 
     reset: function () {
@@ -284,7 +284,7 @@ var board = {
       }
 
       this.playerSymbol = undefined;
-      this.otherSymbol = undefined;
+      this.opponentSymbol = undefined;
       this.winner = undefined;
       this.fullBoard = undefined;
       $('.board').css('cursor', 'default');
@@ -300,7 +300,8 @@ var board = {
   thisView: this,
 
   setHandlers: function () {
-    var newGame = $("#newgame"),
+    var body = $('body'),
+        newGame = $("#newgame"),
         nameInput = $('#nameInput'),
         playPlayer = $('#playPlayer'),
         playComputer = $('#playComputer'),
@@ -319,46 +320,46 @@ var board = {
         baseballTheme = $('#baseball');
 
     classicTheme.on('click', function () {
-      $('body').addClass('classic').removeClass("football").removeClass('basketball').removeClass('baseball');
+      body.addClass('classic').removeClass("football").removeClass('basketball').removeClass('baseball');
     });
 
     footballTheme.on('click', function () {
-      $('body').addClass('football').removeClass("classic").removeClass('basketball').removeClass('baseball');
+      body.addClass('football').removeClass("classic").removeClass('basketball').removeClass('baseball');
     });
 
     basketballTheme.on('click', function () {
-      $('body').addClass('basketball').removeClass("classic").removeClass('football').removeClass('baseball');
+      body.addClass('basketball').removeClass("classic").removeClass('football').removeClass('baseball');
     });
 
     baseballTheme.on('click', function () {
-      $('body').addClass('baseball').removeClass("classic").removeClass('basketball').removeClass('football');
+      body.addClass('baseball').removeClass("classic").removeClass('basketball').removeClass('football');
     });
 
     //set new game handlers
     newGame.on('click', function () {
-      $('.board').addClass('responsive');
-      var gameInPlay = board.checkEmpty();
+      tictactoeBoard.addClass('responsive');
+      var gameInPlay = !(board.checkEmpty());
 
-      if ($('#O').prop("checked") == false && $('#X').prop("checked") == false) {
+      if (chooseO.prop("checked") == false && chooseX.prop("checked") == false) {
         alert("Please select X or O");
-        $('.board').addClass('responsive');
+        tictactoeBoard.removeClass('responsive');
       }
-      else if ($('#O').prop("checked") && gameInPlay == true) {
+      else if (chooseO.prop("checked") && gameInPlay == false) {
         board.playerSymbol = "O";
-        board.otherSymbol = "X";
+        board.opponentSymbol = "X";
         board.pickFirstPlayer();
-      } else if ($('#X').prop("checked") && gameInPlay == true) {
+      } else if (chooseX.prop("checked") && gameInPlay == false) {
         board.playerSymbol = "X";
-        board.otherSymbol = "O";
+        board.opponentSymbol = "O";
         board.pickFirstPlayer();
-      } else if (gameInPlay == false ) {
+      } else if (gameInPlay == false) {
         board.reset();
       }
 
       if (board.currentSymbol != undefined && board.currentSymbol == board.playerSymbol) {
-        $('h3').text(board.name + "'s turn");
+        choiceDisplay.text(board.name + "'s turn");
       } else if (board.currentSymbol != undefined && board.currentSymbol != board.playerSymbol) {
-        $('h3').text(board.opponentName + "'s turn");
+        choiceDisplay.text(board.opponentName + "'s turn");
       }
 
     });
@@ -366,8 +367,8 @@ var board = {
     playPlayer.on('click', function (e) {
       board.opponent = "player";
 
-      $('#secondNameLabel').css('visibility','visible');
-      $('#secondNameInput').css('visibility','visible');
+      secondNameLabel.css('visibility','visible');
+      secondNameInput.css('visibility','visible');
     })
 
     secondNameInput.on('keypress', function (e) {
@@ -380,20 +381,20 @@ var board = {
         else {
           board.name = nameInput.val();
           $('h1').text("Welcome " + board.name + " and " + board.opponentName + "!");
-          $('#score').text(board.name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
+          $('#score').text(board.name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.opponentScore);
 
-          if ($('body').hasClass('football')) {
+          if (body.hasClass('football')) {
             choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-          } else if ($('body').hasClass('basketball')) {
+          } else if (body.hasClass('basketball')) {
             choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-          } else if ($('body').hasClass('baseball')){
+          } else if (body.hasClass('baseball')){
             choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
           } else {
             choiceDisplay.text(board.name + ", choose X or O");
           }
 
           $(this).remove();
-          $('#secondNameLabel').remove();
+          secondNameLabel.remove();
           $('#startScreen').css('visibility','hidden');
           $('#secondScreen').css('visibility','visible');
         }
@@ -407,24 +408,25 @@ var board = {
       if (nameInput.val() != "") {
         $('#startScreen').css('visibility','hidden');
         $('#secondScreen').css('visibility','visible');
-        $('#secondNameLabel').remove();
-        $('#secondNameInput').remove();
+        secondNameLabel.remove();
+        secondNameInput.remove();
+        themes.remove();
 
 
         board.name = nameInput.val();
         $('h1').text("Welcome " + board.name + "!");
 
-        if ($('body').hasClass('football')) {
+        if (body.hasClass('football')) {
           choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-        } else if ($('body').hasClass('basketball')) {
+        } else if (body.hasClass('basketball')) {
           choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-        } else if ($('body').hasClass('baseball')){
+        } else if (body.hasClass('baseball')){
           choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
         } else {
           choiceDisplay.text(board.name + ", choose X or O");
         }
 
-        $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
+        $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.opponentScore);
 
       }
     })
@@ -449,11 +451,11 @@ var board = {
               board.opponentName = secondNameInput.val();
               header.text("Welcome " + board.name + " and " + board.opponentName + "!");
 
-              if ($('body').hasClass('football')) {
+              if (body.hasClass('football')) {
                 choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-              } else if ($('body').hasClass('basketball')) {
+              } else if (body.hasClass('basketball')) {
                 choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-              } else if ($('body').hasClass('baseball')){
+              } else if (body.hasClass('baseball')){
                 choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
               } else {
                 choiceDisplay.text(board.name + ", choose X or O");
@@ -461,13 +463,14 @@ var board = {
 
               $(this).remove();
               $('#nameLabel').remove();
-              $('#score').text(name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.computerScore);
+              $('#score').text(name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.opponentScore);
 
               $('#startScreen').css('visibility','hidden');
               $('#secondScreen').css('visibility','visible');
 
-              $('#secondNameInput').remove();
-              $('#secondNameLabel').remove();
+              secondNameLabel.remove();
+              secondNameInput.remove();
+              themes.remove();
 
             }
           }
@@ -481,20 +484,21 @@ var board = {
 
               $(this).remove();
               $('#nameLabel').remove();
-              $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.computerScore);
+              $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.opponentScore);
 
-              if ($('body').hasClass('football')) {
+              if (body.hasClass('football')) {
                 choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-              } else if ($('body').hasClass('basketball')) {
+              } else if (body.hasClass('basketball')) {
                 choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-              } else if ($('body').hasClass('baseball')){
+              } else if (body.hasClass('baseball')){
                 choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
               } else {
                 choiceDisplay.text(board.name + ", choose X or O");
               }
 
-              $('#secondNameInput').remove();
-              $('#secondNameLabel').remove();
+              secondNameLabel.remove();
+              secondNameInput.remove();
+              themes.remove();
               $('#startScreen').css('visibility','hidden');
               $('#secondScreen').css('visibility','visible');
             }
@@ -507,7 +511,7 @@ var board = {
     chooseX.on('click', function () {
       board.currentSymbol = "X";
       board.playerSymbol = "X";
-      board.otherSymbol = "O";
+      board.opponentSymbol = "O";
       if (board.symbolPicker === undefined) {
         choiceDisplay.text(board.name + " chooses X");
       } else {
@@ -519,7 +523,7 @@ var board = {
     chooseO.on('click', function () {
       board.currentSymbol = "O";
       board.playerSymbol = "O";
-      board.otherSymbol = "X";
+      board.opponentSymbol = "X";
       if (board.symbolPicker === undefined) {
         choiceDisplay.text(board.name + " chooses O");
       } else {

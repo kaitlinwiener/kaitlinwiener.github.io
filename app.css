@@ -15,6 +15,10 @@ button {
   color: white;
 }
 
+label {
+  font-size: 2rem;
+}
+
 h1, h4{
   color: red;
   background: black;
@@ -59,9 +63,9 @@ h3 {
 }
 
 .classic label {
+  color: steelblue;
   background-color: white;
-  color: black;
-  border: 1px black solid;
+  font-size: 2rem;
 }
 
 .classic #secondScreen label {

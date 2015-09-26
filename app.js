@@ -92,6 +92,7 @@ var board = {
     }
   },
 
+  //check if the board is empty or not - when press start game use this to determine if mid game
   checkEmpty: function () {
     for (var i=0; i<this.boardState.length; i++) {
       if (this.boardState[i] != "") {
@@ -352,7 +353,7 @@ var board = {
         board.playerSymbol = "X";
         board.opponentSymbol = "O";
         board.pickFirstPlayer();
-      } else if (gameInPlay == false) {
+      } else if (gameInPlay == true) {
         board.reset();
       }
 

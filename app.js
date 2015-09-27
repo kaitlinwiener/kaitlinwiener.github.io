@@ -2,9 +2,9 @@ var board = {
   name: undefined,
   opponent: undefined,
   opponentName: undefined,
+  symbolPicker: undefined,
   playerSymbol: undefined,
   opponentSymbol: undefined,
-  symbolPicker: undefined,
   boardState : ["","","","","","","","","",],
   currentSymbol: undefined,
   strategicMoveOptions: [],
@@ -93,13 +93,47 @@ var board = {
   },
 
   //check if the board is empty or not - when press start game use this to determine if mid game
-  checkEmpty: function () {
+  checkBoardEmpty: function () {
     for (var i=0; i<this.boardState.length; i++) {
       if (this.boardState[i] != "") {
         return false;
       }
     }
     return true;
+  },
+
+  computerMove: function () {
+    if (this.currentSymbol == this.opponentSymbol) {
+      var availableOptions = [];
+      for (var i=0; i<this.boardState.length; i++) {
+        if (this.boardState[i] == "") {
+          availableOptions.push(i);
+        }
+      }
+      for (var j=0; j<availableOptions.length; j++) {
+        this.checkForTwo(availableOptions[j]);
+      }
+
+      if (this.strategicMoveOptions.length == 0) {
+         var availableOptionsLength = availableOptions.length;
+         var randomNumber = Math.floor(Math.random()*availableOptionsLength);
+
+         var computerChoice = availableOptions[randomNumber];
+
+         this.boardState[computerChoice] = this.opponentSymbol;
+      } else {
+          var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
+          var computerChoice = this.strategicMoveOptions[randomNumber];
+
+          this.boardState[computerChoice] = this.opponentSymbol;
+    }
+
+      boardView.render();
+      board.determineWinner();
+      board.switchPlayer();
+      board.strategicMoveOptions = [];
+    }
+
   },
 
   checkForTwo: function (position) {
@@ -172,40 +206,7 @@ var board = {
 
   },
 
-  computerMove: function () {
-    if (this.currentSymbol == this.opponentSymbol) {
-      var availableOptions = [];
-      for (var i=0; i<this.boardState.length; i++) {
-        if (this.boardState[i] == "") {
-          availableOptions.push(i);
-        }
-      }
-      for (var j=0; j<availableOptions.length; j++) {
-        this.checkForTwo(availableOptions[j]);
-      }
-
-      if (this.strategicMoveOptions.length == 0) {
-         var availableOptionsLength = availableOptions.length;
-         var randomNumber = Math.floor(Math.random()*availableOptionsLength);
-
-         var computerChoice = availableOptions[randomNumber];
-
-         this.boardState[computerChoice] = this.opponentSymbol;
-      } else {
-          var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
-          var computerChoice = this.strategicMoveOptions[randomNumber];
-
-          this.boardState[computerChoice] = this.opponentSymbol;
-    }
-
-      boardView.render();
-      board.determineWinner();
-      board.switchPlayer();
-      board.strategicMoveOptions = [];
-    }
-
-  },
-
+//remember boardState index is one less than the number of the square
   checkRow: function () {
       if (this.boardState[0] != "" && this.boardState[0] === this.boardState[1] && this.boardState[0] === this.boardState[2]
             || this.boardState[3] != "" && this.boardState[3] === this.boardState[4] && this.boardState[3] === this.boardState[5]
@@ -214,6 +215,7 @@ var board = {
       }
   },
 
+//remember boardState index is one less than the number of the square
   checkColumn: function () {
       if (this.boardState[0] != "" && this.boardState[0] === this.boardState[3] && this.boardState[0] === this.boardState[6]
             || this.boardState[1] != "" && this.boardState[1] === this.boardState[4] && this.boardState[1] === this.boardState[7]
@@ -222,6 +224,7 @@ var board = {
       }
   },
 
+//remember boardState index is one less than the number of the square
   checkDiagonal: function () {
       if (this.boardState[0] != "" && this.boardState[0] === this.boardState[4] && this.boardState[0] === this.boardState[8]
             || this.boardState[2] != "" && this.boardState[2] === this.boardState[4] && this.boardState[2] === this.boardState[6]) {
@@ -239,7 +242,6 @@ var board = {
   },
 
   determineWinner: function () {
-    //remember boardState index is one less than the number of the square
       this.checkRow();
       this.checkColumn();
       this.checkDiagonal();
@@ -272,7 +274,6 @@ var board = {
     reset: function () {
       var choiceDisplay = $('h3');
       this.currentSymbol = undefined;
-  //    this.symbolPicker = undefined;
 
       this.boardState = ["","","","","","","","",""];
       boardView.render();
@@ -336,102 +337,6 @@ var board = {
       body.addClass('baseball').removeClass("classic").removeClass('basketball').removeClass('football');
     });
 
-    //set new game handlers
-    newGame.on('click', function () {
-      tictactoeBoard.addClass('responsive');
-      var gameInPlay = !(board.checkEmpty());
-
-      if (chooseO.prop("checked") == false && chooseX.prop("checked") == false) {
-        alert("Please select X or O");
-        tictactoeBoard.removeClass('responsive');
-      }
-      else if (chooseO.prop("checked") && gameInPlay == false) {
-        board.playerSymbol = "O";
-        board.opponentSymbol = "X";
-        board.pickFirstPlayer();
-      } else if (chooseX.prop("checked") && gameInPlay == false) {
-        board.playerSymbol = "X";
-        board.opponentSymbol = "O";
-        board.pickFirstPlayer();
-      } else if (gameInPlay == true) {
-        board.reset();
-      }
-
-      if (board.currentSymbol != undefined && board.currentSymbol == board.playerSymbol) {
-        choiceDisplay.text(board.name + "'s turn");
-      } else if (board.currentSymbol != undefined && board.currentSymbol != board.playerSymbol) {
-        choiceDisplay.text(board.opponentName + "'s turn");
-      }
-
-    });
-
-    playPlayer.on('click', function (e) {
-      board.opponent = "player";
-
-      secondNameLabel.css('visibility','visible');
-      secondNameInput.css('visibility','visible');
-    })
-
-    secondNameInput.on('keypress', function (e) {
-      if (e.charCode === 13) {
-        board.opponentName = $(this).val();
-
-        if (nameInput.val() == "") {
-          alert("Enter first player's name")
-        }
-        else {
-          board.name = nameInput.val();
-          $('h1').text("Welcome " + board.name + " and " + board.opponentName + "!");
-          $('#score').text(board.name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.opponentScore);
-
-          if (body.hasClass('football')) {
-            choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-          } else if (body.hasClass('basketball')) {
-            choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-          } else if (body.hasClass('baseball')){
-            choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
-          } else {
-            choiceDisplay.text(board.name + ", choose X or O");
-          }
-
-          $(this).remove();
-          secondNameLabel.remove();
-          $('#startScreen').css('visibility','hidden');
-          $('#secondScreen').css('visibility','visible');
-        }
-      }
-    })
-
-    playComputer.on('click', function () {
-      board.opponent = "computer";
-      board.opponentName = "Computer";
-
-      if (nameInput.val() != "") {
-        $('#startScreen').css('visibility','hidden');
-        $('#secondScreen').css('visibility','visible');
-        secondNameLabel.remove();
-        secondNameInput.remove();
-        themes.remove();
-
-
-        board.name = nameInput.val();
-        $('h1').text("Welcome " + board.name + "!");
-
-        if (body.hasClass('football')) {
-          choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
-        } else if (body.hasClass('basketball')) {
-          choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
-        } else if (body.hasClass('baseball')){
-          choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
-        } else {
-          choiceDisplay.text(board.name + ", choose X or O");
-        }
-
-        $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.opponentScore);
-
-      }
-    })
-
     nameInput.on('keypress', function (e) {
         if (e.charCode === 13) {
           if (playPlayer.prop("checked") == false && playComputer.prop("checked") == false) {
@@ -472,10 +377,8 @@ var board = {
               secondNameLabel.remove();
               secondNameInput.remove();
               themes.remove();
-
             }
           }
-
           else if (playComputer.prop("checked")) {
             if ($(this).val() === "") {
               alert("Please enter name");
@@ -508,6 +411,72 @@ var board = {
       }
     });
 
+    secondNameInput.on('keypress', function (e) {
+      if (e.charCode === 13) {
+        board.opponentName = $(this).val();
+
+        if (nameInput.val() == "") {
+          alert("Enter first player's name")
+        }
+        else {
+          board.name = nameInput.val();
+          $('h1').text("Welcome " + board.name + " and " + board.opponentName + "!");
+          $('#score').text(board.name + ": " + board.playerScore + " vs. " + board.opponentName + ": " + board.opponentScore);
+
+          if (body.hasClass('football')) {
+            choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+          } else if (body.hasClass('basketball')) {
+            choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
+          } else if (body.hasClass('baseball')){
+            choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+          } else {
+            choiceDisplay.text(board.name + ", choose X or O");
+          }
+
+          $(this).remove();
+          secondNameLabel.remove();
+          $('#startScreen').css('visibility','hidden');
+          $('#secondScreen').css('visibility','visible');
+        }
+      }
+    });
+
+    playPlayer.on('click', function (e) {
+      board.opponent = "player";
+
+      secondNameLabel.css('visibility','visible');
+      secondNameInput.css('visibility','visible');
+    });
+
+    playComputer.on('click', function () {
+      board.opponent = "computer";
+      board.opponentName = "Computer";
+
+      if (nameInput.val() != "") {
+        $('#startScreen').css('visibility','hidden');
+        $('#secondScreen').css('visibility','visible');
+        secondNameLabel.remove();
+        secondNameInput.remove();
+        themes.remove();
+
+
+        board.name = nameInput.val();
+        $('h1').text("Welcome " + board.name + "!");
+
+        if (body.hasClass('football')) {
+          choiceDisplay.text(board.name + ", choose X (Giants) or O (Jets)");
+        } else if (body.hasClass('basketball')) {
+          choiceDisplay.text(board.name + ", choose X (Knicks) or O (Nets)");
+        } else if (body.hasClass('baseball')){
+          choiceDisplay.text(board.name + ", choose X (Yankees) or O (Mets)");
+        } else {
+          choiceDisplay.text(board.name + ", choose X or O");
+        }
+
+        $('#score').text(board.name + ":"+ board.playerScore + " vs. Computer:" + board.opponentScore);
+      }
+    });
+
     //set x and o button handlers
     chooseX.on('click', function () {
       board.currentSymbol = "X";
@@ -531,6 +500,35 @@ var board = {
         choiceDisplay.text(board.symbolPicker + " chooses O");
       }
       $('#labels').css('visibility', 'hidden');
+    });
+
+    //set new game handlers
+    newGame.on('click', function () {
+      tictactoeBoard.addClass('responsive');
+      var gameInPlay = !(board.checkBoardEmpty());
+
+      if (chooseO.prop("checked") == false && chooseX.prop("checked") == false) {
+        alert("Please select X or O");
+        tictactoeBoard.removeClass('responsive');
+      }
+      else if (chooseO.prop("checked") && gameInPlay == false) {
+        board.playerSymbol = "O";
+        board.opponentSymbol = "X";
+        board.pickFirstPlayer();
+      } else if (chooseX.prop("checked") && gameInPlay == false) {
+        board.playerSymbol = "X";
+        board.opponentSymbol = "O";
+        board.pickFirstPlayer();
+      } else if (gameInPlay == true) {
+        board.reset();
+      }
+
+      if (board.currentSymbol != undefined && board.currentSymbol == board.playerSymbol) {
+        choiceDisplay.text(board.name + "'s turn");
+      } else if (board.currentSymbol != undefined && board.currentSymbol != board.playerSymbol) {
+        choiceDisplay.text(board.opponentName + "'s turn");
+      }
+
     });
 
     var square1 = $('.1'),
@@ -687,7 +685,6 @@ var board = {
         }
       }
     })
-
   },
 
   render: function () {
@@ -695,7 +692,6 @@ var board = {
       $("." + (i)).text(board.boardState[i-1]);
     }
  },
-
 };
 
 boardView.setHandlers();

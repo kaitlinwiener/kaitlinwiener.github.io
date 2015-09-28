@@ -2,6 +2,7 @@ var board = {
   name: undefined,
   opponent: undefined,
   opponentName: undefined,
+  whoPicksSymbol: undefined,
   playerSymbol: undefined,
   opponentSymbol: undefined,
   boardState : ["","","","","","","","","",],
@@ -280,7 +281,12 @@ var board = {
       this.boardState = ["","","","","","","","",""];
       boardView.render();
 
-      choiceDisplay.text(this.name + ", choose X or O");
+      if (this.opponentName != "Computer") {
+         this.whoPicksSymbol = (Math.floor(Math.random() * 2) == 0) ? this.name : this.opponentName;
+         choiceDisplay.text(this.whoPicksSymbol + ", choose X or O");
+       } else {
+         choiceDisplay.text(this.name + ", choose X or O");
+       }
 
       this.playerSymbol = undefined;
       this.opponentSymbol = undefined;
@@ -481,18 +487,32 @@ var board = {
 
     //set x and o button handlers
     chooseX.on('click', function () {
-      board.currentSymbol = "X";
-      board.playerSymbol = "X";
-      board.opponentSymbol = "O";
-      choiceDisplay.text(board.name + " chooses X");
+      if (board.whoPicksSymbol === undefined || board.whoPicksSymbol === board.name) {
+        board.currentSymbol = "X";
+        board.playerSymbol = "X";
+        board.opponentSymbol = "O";
+        choiceDisplay.text(board.name + " chooses X");
+      } else {
+        board.currentSymbol = "X";
+        board.playerSymbol = "O";
+        board.opponentSymbol = "X";
+        choiceDisplay.text(board.whoPicksSymbol + " chooses X");
+      }
       $('#labels').css('visibility', 'hidden');
     });
 
     chooseO.on('click', function () {
-      board.currentSymbol = "O";
-      board.playerSymbol = "O";
-      board.opponentSymbol = "X";
-      choiceDisplay.text(board.name + " chooses O");
+      if (board.whoPicksSymbol === undefined || board.whoPicksSymbol === board.name) {
+        board.currentSymbol = "O";
+        board.playerSymbol = "O";
+        board.opponentSymbol = "X";
+        choiceDisplay.text(board.name + " chooses O");
+      } else {
+        board.currentSymbol = "O";
+        board.playerSymbol = "X";
+        board.opponentSymbol = "O";
+        choiceDisplay.text(board.whoPicksSymbol + " chooses O");
+      }
       $('#labels').css('visibility', 'hidden');
     });
 
@@ -504,14 +524,24 @@ var board = {
       if (chooseO.prop("checked") == false && chooseX.prop("checked") == false) {
         alert("Please select X or O");
         tictactoeBoard.removeClass('responsive');
-      }
-      else if (chooseO.prop("checked") && gameInPlay == false) {
-        board.playerSymbol = "O";
-        board.opponentSymbol = "X";
+      } else if (chooseO.prop("checked") && gameInPlay == false) {
+        //if O was chosen and the game hasn't started yet, check who was the one to chose O
+        if (board.whoPicksSymbol === board.name || board.whoPicksSymbol === undefined) {
+          board.playerSymbol = "O";
+          board.opponentSymbol = "X";
+        } else {
+          board.playerSymbol = "X";
+          board.opponentSymbol = "O";
+        }
         board.pickFirstPlayer();
       } else if (chooseX.prop("checked") && gameInPlay == false) {
-        board.playerSymbol = "X";
-        board.opponentSymbol = "O";
+        if (board.whoPicksSymbol === board.name || board.whoPicksSymbol === undefined) {
+          board.playerSymbol = "X";
+          board.opponentSymbol = "O";
+        } else {
+          board.playerSymbol = "O";
+          board.opponentSymbol = "X";
+        }
         board.pickFirstPlayer();
       } else if (gameInPlay == true) {
         board.reset();

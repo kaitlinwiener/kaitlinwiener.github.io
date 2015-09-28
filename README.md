@@ -29,11 +29,15 @@ In order to get the game set up I just had to call boardView.setHandlers()
 
 The way I have my computerMove coded it is not able to distinguish between whether it is making a move that will enable it to win (going next to two cells with the same symbol as its own) or a move that will block the player. I wanted to have my checkForTwo function be able to store both the index of the cell next to two as well as what the value of those two cells is but could not figure out how to add that in. 
 
+I also couldn't figure out how to prevent being able to click on the board when the computer was moving. I tried setting the board to not responsive and then back to responsive but it didn't work.
+
 I also had problems with animation - I was hoping to have my start screen slide up and then disappear but could not get it to work. 
 
 
 5) wireframe images
 6) user stories
+
+Images in file.
 
 
 

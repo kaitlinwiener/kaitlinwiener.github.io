@@ -2,7 +2,6 @@ var board = {
   name: undefined,
   opponent: undefined,
   opponentName: undefined,
-  symbolPicker: undefined,
   playerSymbol: undefined,
   opponentSymbol: undefined,
   boardState : ["","","","","","","","","",],
@@ -14,6 +13,7 @@ var board = {
   opponentScore: 0,
 
   pickFirstPlayer: function () {
+    //randomly choose who goes first
     var choosePlayer = Math.floor(Math.random()*2)
 
     if (choosePlayer === 0) {
@@ -64,7 +64,7 @@ var board = {
         $('.board').css('cursor', 'url("https://static.globalcitizen.org/static/img/o-logo.a54ec4957321.png"), default');
       }
 
-      if (this.playerSymbol == "0") {
+      if (this.playerSymbol == "O") {
         $('h3').text(this.name + "'s turn");
       }
       else {
@@ -84,7 +84,7 @@ var board = {
           $('.board').css('cursor', 'url("https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png"), default');
         }
 
-      if (this.playerSymbol = "X") {
+      if (this.playerSymbol == "X") {
         $('h3').text(this.name + "'s turn");
       }
       else {
@@ -280,12 +280,7 @@ var board = {
       this.boardState = ["","","","","","","","",""];
       boardView.render();
 
-      if (this.opponentName != "Computer") {
-        this.symbolPicker = (Math.floor(Math.random() * 2) == 0) ? this.name : this.opponentName;
-        choiceDisplay.text(this.symbolPicker + ", choose X or O");
-      } else {
-        choiceDisplay.text(this.name + ", choose X or O");
-      }
+      choiceDisplay.text(this.name + ", choose X or O");
 
       this.playerSymbol = undefined;
       this.opponentSymbol = undefined;
@@ -489,11 +484,7 @@ var board = {
       board.currentSymbol = "X";
       board.playerSymbol = "X";
       board.opponentSymbol = "O";
-      if (board.symbolPicker === undefined) {
-        choiceDisplay.text(board.name + " chooses X");
-      } else {
-        choiceDisplay.text(board.symbolPicker + " chooses X");
-      }
+      choiceDisplay.text(board.name + " chooses X");
       $('#labels').css('visibility', 'hidden');
     });
 
@@ -501,11 +492,7 @@ var board = {
       board.currentSymbol = "O";
       board.playerSymbol = "O";
       board.opponentSymbol = "X";
-      if (board.symbolPicker === undefined) {
-        choiceDisplay.text(board.name + " chooses O");
-      } else {
-        choiceDisplay.text(board.symbolPicker + " chooses O");
-      }
+      choiceDisplay.text(board.name + " chooses O");
       $('#labels').css('visibility', 'hidden');
     });
 

@@ -23,7 +23,7 @@ In order to get the game set up I just had to call boardView.setHandlers()
 
 3) installation instructions(which may just be a link to your hosted game)
 
-http://kaitlinwiener.github.io/
+"http://kaitlinwiener.github.io/""
 
 4) unsolved problems
 

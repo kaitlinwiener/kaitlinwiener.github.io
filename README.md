@@ -3,11 +3,10 @@ check in computerMove if you can write it without creating the variable strategi
 
 
 # kaitlinwiener.github.io
-
-A readme.md file with the following:
 1) explanations of the technologies used
 
 For this project I used the HTML, CSS, and javascript/jQuery we have learned in class. 
+
 
 
 2) the approach taken
@@ -18,15 +17,17 @@ My next step was to figure out setting up a game - in my board object I created 
 
 
 Next step was making the game work with two players. In order to do this I created a
-currentSymbol variable to keep track of which symbol is being used on the board. I then set event listeners on all of the different cells that (if the board were responsive and there was no text inside the cell already) would update the corresponding index in the boardState array to this currentSymbol and render that to the view. I then created a switchPlayer function to be called after a cell was clicked and the boardView rendered and would change the currentSymbol and the cursor.
+currentSymbol variable to keep track of which symbol is being used on the board. I then set event listeners on all of the different cells that (if the board were responsive and there was no text inside the cell already) would update the corresponding index in the boardState array to the currentSymbol and render that to the view. I then created a switchPlayer function to be called after a cell was clicked/the boardView rendered that would change the currentSymbol and corresponding cursor.
 
-Then I had to figure out how to check if there was a winner. I created checkRow, checkColumn, and checkDiagonal functions that checked the boardState array for any possible combination of winning and set the winner variable in the board object to the currentSymbol. I then created a determineWinner function that calls all three of these function and if there is a winner determines which player is the winner, increments the score accordingly and resets the board. I then created my reset funciton which clears out all of the player information except for their names as well as the boardState array.This didn't account for ties so I created a function to checkFullBoard and called this and then determineWinner every time a cell is clicked after the view is updated.
+Then I had to figure out how to check if there was a winner. I created checkRow, checkColumn, and checkDiagonal functions that checked the boardState array for any possible winning combination and set the winner variable in the board object equal to the currentSymbol. I then created a determineWinner function that calls all three of these functions and if there is a winner determines which player is the winner, increments the score accordingly and resets the board. I then created my reset function which clears out all of the players' information (except for their names) as well as the boardState array. This didn't account for ties so I created a function to checkFullBoard and called this and then determineWinner every time a cell is clicked after the view is updated.
 
-Now that the game was functioning with two players I created a function called computerMove that ran through boardState, placed all of the indices with empty strings into a second array and chose a value at random from that array to set equal to the currentSymbol which would be equal to the computer's symbol. Then I had this called when any cell was pressed after a winner or tie was determined (only if the opponent stored in board was "computer"). 
+Now that the game was functioning with two players I created a function called computerMove that ran through boardState, placed all of the indices with empty strings into a second array and chose a value at random from that array to set equal to the currentSymbol (equal to the computer's symbol.) Then I had this called when any cell was pressed after a winner or tie was determined (only if the opponent stored in board was "computer"). I had this called after 1.5 seconds in order to simulate the computer thinking.
 
-My last step was making the game smart. I did this by creating a function called checkForTwo(position) which checks if the inputted position is next to or between two cells with the same value. If so I pushed that position value to an array variable I created in board called strategicMoveOptions. In computerMove I called checkForTwo on every available space on the board and if any available spaces were strategic I chose randomly from those and had that be the computer's move. 
+My last step was making the game smart. I did this by creating a function called checkForTwo(position) which checks if the inputted position is next to or between two cells with the same value. If so I pushed that position to an array variable I created in board called strategicMoveOptions. In computerMove I called checkForTwo on every available space on the board and if any available spaces were strategic I chose randomly from those and had the computer move there. 
 
 In order to get the game set up I just had to call boardView.setHandlers()
+
+
 
 3) installation instructions(which may just be a link to your hosted game)
 
@@ -40,12 +41,3 @@ I also had problems with animation - I was hoping to have my start screen slide 
 
 5) wireframe images
 6) user stories
-
-
-Most importantly a technical demonstration of your app which:
-
-Is 5 minutes in length
-Shows off all features of the app
-Explains the technical details
-Explains the technical challenges
-Explains which improvements you might make

@@ -15,6 +15,7 @@ var board = {
 
   pickFirstPlayer: function () {
     var choosePlayer = Math.floor(Math.random()*2)
+
     if (choosePlayer === 0) {
       this.currentSymbol = this.playerSymbol;
       alert (this.name + " go first!");
@@ -117,10 +118,10 @@ var board = {
       if (this.strategicMoveOptions.length == 0) {
          var availableOptionsLength = availableOptions.length;
          var randomNumber = Math.floor(Math.random()*availableOptionsLength);
-
          var computerChoice = availableOptions[randomNumber];
 
          this.boardState[computerChoice] = this.opponentSymbol;
+
       } else {
           var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
           var computerChoice = this.strategicMoveOptions[randomNumber];
@@ -129,6 +130,7 @@ var board = {
     }
 
       boardView.render();
+      board.checkFullBoard();
       board.determineWinner();
       board.switchPlayer();
       board.strategicMoveOptions = [];
@@ -339,6 +341,7 @@ var board = {
 
     nameInput.on('keypress', function (e) {
         if (e.charCode === 13) {
+          //if no opponent selected
           if (playPlayer.prop("checked") == false && playComputer.prop("checked") == false) {
             alert("Please select an opponent");
           }
@@ -350,6 +353,7 @@ var board = {
           board.name = name;
 
           if (playPlayer.prop("checked")) {
+            //if player opponent selected but no second name inputted
             if(secondNameInput.val() === "") {
               alert("Enter second player's name");
             }
@@ -687,6 +691,7 @@ var board = {
     })
   },
 
+  //cell number corresponds to the boardState array value at number-1
   render: function () {
     for (var i=1; i<=board.boardState.length; i++) {
       $("." + (i)).text(board.boardState[i-1]);

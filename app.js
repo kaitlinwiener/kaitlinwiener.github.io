@@ -420,7 +420,7 @@ var board = {
       if (e.charCode === 13) {
         board.opponentName = $(this).val();
 
-        if (nameInput.val() == "") {
+        if (nameInput.val() === "") {
           alert("Enter first player's name")
         }
         else if (secondNameInput.val() == "") {
@@ -549,12 +549,12 @@ var board = {
         square8 = $('.8'),
         square9 = $('.9');
 
+    //of cell is empty and game has started, set the value render it check if winner and switch player
     square1.on('click', function () {
       if (square1.text() == "" && $('.board').hasClass('responsive')) {
         board.boardState[0] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -570,7 +570,6 @@ var board = {
         board.boardState[1] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -586,7 +585,6 @@ var board = {
         board.boardState[2] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -602,7 +600,6 @@ var board = {
         board.boardState[3] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -618,7 +615,6 @@ var board = {
         board.boardState[4] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -634,7 +630,6 @@ var board = {
         board.boardState[5] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -650,7 +645,6 @@ var board = {
         board.boardState[6] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -667,7 +661,6 @@ var board = {
         board.boardState[7] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -683,7 +676,6 @@ var board = {
         board.boardState[8] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
-        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {

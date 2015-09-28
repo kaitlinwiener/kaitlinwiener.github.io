@@ -248,7 +248,6 @@ var board = {
       this.checkRow();
       this.checkColumn();
       this.checkDiagonal();
-      this.checkFullBoard();
 
       if (this.winner === "X") {
         if (this.playerSymbol === "X") {
@@ -555,6 +554,7 @@ var board = {
         board.boardState[0] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -570,6 +570,7 @@ var board = {
         board.boardState[1] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -585,6 +586,7 @@ var board = {
         board.boardState[2] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -600,6 +602,7 @@ var board = {
         board.boardState[3] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -615,6 +618,7 @@ var board = {
         board.boardState[4] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -630,6 +634,7 @@ var board = {
         board.boardState[5] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -645,6 +650,7 @@ var board = {
         board.boardState[6] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -661,6 +667,7 @@ var board = {
         board.boardState[7] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {
@@ -676,6 +683,7 @@ var board = {
         board.boardState[8] = board.currentSymbol;
         boardView.render();
         board.determineWinner();
+        board.checkFullBoard();
         board.switchPlayer();
 
         if (board.opponent == "computer") {

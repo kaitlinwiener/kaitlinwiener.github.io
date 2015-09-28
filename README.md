@@ -7,8 +7,6 @@ check in computerMove if you can write it without creating the variable strategi
 
 For this project I used the HTML, CSS, and javascript/jQuery we have learned in class. 
 
-
-
 2) the approach taken
 
 I started by creating two objects - board and boardView - to track the state of the tic tac toe board and update the view accordingly. Once I had a basic board on my page using HTML & CSS I thought about how I wanted to represent the board in javascript and decided to create an array called boardState that was initialized to contain all empty strings. Each move on the board would update the corresponding space in the array to either "X" or "O" and then my boardView object would have a render function to make the necessary updates to the board on the page. 
@@ -27,13 +25,14 @@ My last step was making the game smart. I did this by creating a function called
 
 In order to get the game set up I just had to call boardView.setHandlers()
 
-
-
 3) installation instructions(which may just be a link to your hosted game)
 
-
+```javascript
+http://kaitlinwiener.github.io/
+```
 
 4) unsolved problems
+
 The way I have my computerMove coded it is not able to distinguish between whether it is making a move that will enable it to win (going next to two cells with the same symbol as its own) or a move that will block the player. I wanted to have my checkForTwo function be able to store both the index of the cell next to two as well as what the value of those two cells is but could not figure out how to add that in. 
 
 I also had problems with animation - I was hoping to have my start screen slide up and then disappear but could not get it to work. 
@@ -41,3 +40,8 @@ I also had problems with animation - I was hoping to have my start screen slide 
 
 5) wireframe images
 6) user stories
+
+
+
+
+

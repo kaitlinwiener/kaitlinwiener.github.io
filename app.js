@@ -422,6 +422,9 @@ var board = {
         if (nameInput.val() == "") {
           alert("Enter first player's name")
         }
+        else if (secondNameInput.val() == "") {
+          alert("Enter second player's name")
+        }
         else {
           board.name = nameInput.val();
           $('h1').text("Welcome " + board.name + " and " + board.opponentName + "!");

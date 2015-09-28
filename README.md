@@ -1,7 +1,3 @@
-in new game event listener - check if can take out part where set x and o 
-check in computerMove if you can write it without creating the variable strategicMoveOptions in the board object
-
-
 # kaitlinwiener.github.io
 1) explanations of the technologies used
 
@@ -27,9 +23,7 @@ In order to get the game set up I just had to call boardView.setHandlers()
 
 3) installation instructions(which may just be a link to your hosted game)
 
-```javascript
 http://kaitlinwiener.github.io/
-```
 
 4) unsolved problems
 

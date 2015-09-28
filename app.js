@@ -524,26 +524,10 @@ var board = {
       if (chooseO.prop("checked") == false && chooseX.prop("checked") == false) {
         alert("Please select X or O");
         tictactoeBoard.removeClass('responsive');
-      } else if (chooseO.prop("checked") && gameInPlay == false) {
-        //if O was chosen and the game hasn't started yet, check who was the one to chose O
-        if (board.whoPicksSymbol === board.name || board.whoPicksSymbol === undefined) {
-          board.playerSymbol = "O";
-          board.opponentSymbol = "X";
-        } else {
-          board.playerSymbol = "X";
-          board.opponentSymbol = "O";
-        }
+      } else if (gameInPlay == false) {
         board.pickFirstPlayer();
-      } else if (chooseX.prop("checked") && gameInPlay == false) {
-        if (board.whoPicksSymbol === board.name || board.whoPicksSymbol === undefined) {
-          board.playerSymbol = "X";
-          board.opponentSymbol = "O";
-        } else {
-          board.playerSymbol = "O";
-          board.opponentSymbol = "X";
-        }
-        board.pickFirstPlayer();
-      } else if (gameInPlay == true) {
+      }
+       else if (gameInPlay == true) {
         board.reset();
       }
 

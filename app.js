@@ -104,41 +104,6 @@ var board = {
     return true;
   },
 
-  computerMove: function () {
-    if (this.currentSymbol == this.opponentSymbol) {
-      var availableOptions = [];
-      for (var i=0; i<this.boardState.length; i++) {
-        if (this.boardState[i] == "") {
-          availableOptions.push(i);
-        }
-      }
-      for (var j=0; j<availableOptions.length; j++) {
-        this.checkForTwo(availableOptions[j]);
-      }
-
-      if (this.strategicMoveOptions.length == 0) {
-         var availableOptionsLength = availableOptions.length;
-         var randomNumber = Math.floor(Math.random()*availableOptionsLength);
-         var computerChoice = availableOptions[randomNumber];
-
-         this.boardState[computerChoice] = this.opponentSymbol;
-
-      } else {
-          var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
-          var computerChoice = this.strategicMoveOptions[randomNumber];
-
-          this.boardState[computerChoice] = this.opponentSymbol;
-    }
-
-      boardView.render();
-      board.checkFullBoard();
-      board.determineWinner();
-      board.switchPlayer();
-      board.strategicMoveOptions = [];
-    }
-
-  },
-
   checkForTwo: function (position) {
     if (position === 0) {
       if ((this.boardState[1] != "" && this.boardState[1] === this.boardState[2])
@@ -206,6 +171,41 @@ var board = {
               this.strategicMoveOptions.push(8);
           }
       }
+
+  },
+
+  computerMove: function () {
+    if (this.currentSymbol == this.opponentSymbol) {
+      var availableOptions = [];
+      for (var i=0; i<this.boardState.length; i++) {
+        if (this.boardState[i] == "") {
+          availableOptions.push(i);
+        }
+      }
+      for (var j=0; j<availableOptions.length; j++) {
+        this.checkForTwo(availableOptions[j]);
+      }
+
+      if (this.strategicMoveOptions.length == 0) {
+         var availableOptionsLength = availableOptions.length;
+         var randomNumber = Math.floor(Math.random()*availableOptionsLength);
+         var computerChoice = availableOptions[randomNumber];
+
+         this.boardState[computerChoice] = this.opponentSymbol;
+
+      } else {
+          var randomNumber = Math.floor(Math.random()*this.strategicMoveOptions.length);
+          var computerChoice = this.strategicMoveOptions[randomNumber];
+
+          this.boardState[computerChoice] = this.opponentSymbol;
+    }
+
+      boardView.render();
+      board.checkFullBoard();
+      board.determineWinner();
+      board.switchPlayer();
+      board.strategicMoveOptions = [];
+    }
 
   },
 
